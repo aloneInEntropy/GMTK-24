@@ -1,0 +1,189 @@
+[gd_scene load_steps=12 format=3 uid="uid://c4x25dpwoqaxn"]
+
+[ext_resource type="Script" path="res://Scripts/World.gd" id="1_6yhv2"]
+[ext_resource type="Texture2D" uid="uid://cwow1skf4c7tc" path="res://quad_128.png" id="1_raw7a"]
+[ext_resource type="PackedScene" uid="uid://cbul786ob5ee7" path="res://Scenes/Player_0.tscn" id="2_7xj6h"]
+[ext_resource type="PackedScene" uid="uid://b0x1hf0cxved5" path="res://Scenes/Enemy.tscn" id="4_4pptl"]
+[ext_resource type="PackedScene" uid="uid://dlhy1ldll77c" path="res://Scenes/Door.tscn" id="5_4elpx"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_v71e6"]
+size = Vector2(31.8354, 20)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_tvvmk"]
+size = Vector2(31.8957, 25.0945)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_swul5"]
+size = Vector2(29.9342, 20)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_fqkjp"]
+size = Vector2(31.7616, 20)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_6tg1b"]
+size = Vector2(25.7574, 20)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_eakdd"]
+size = Vector2(31.6434, 22.4966)
+
+[node name="World" type="Node2D"]
+script = ExtResource("1_6yhv2")
+
+[node name="Surface" type="StaticBody2D" parent="."]
+modulate = Color(0.114897, 0.114897, 0.114897, 1)
+position = Vector2(-156, 1)
+scale = Vector2(24.92, 0.400001)
+collision_layer = 4
+collision_mask = 15
+metadata/_edit_group_ = true
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Surface"]
+position = Vector2(-0.0534296, 0)
+scale = Vector2(1, 1)
+shape = SubResource("RectangleShape2D_v71e6")
+
+[node name="Sprite2D" type="Sprite2D" parent="Surface"]
+scale = Vector2(0.25, 0.25)
+texture = ExtResource("1_raw7a")
+
+[node name="Surface5" type="StaticBody2D" parent="."]
+modulate = Color(0.114897, 0.114897, 0.114897, 1)
+position = Vector2(217, 250)
+scale = Vector2(71.9847, 0.529995)
+collision_layer = 4
+collision_mask = 15
+metadata/_edit_group_ = true
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Surface5"]
+position = Vector2(0, 2.54724)
+shape = SubResource("RectangleShape2D_tvvmk")
+
+[node name="Sprite2D" type="Sprite2D" parent="Surface5"]
+scale = Vector2(0.25, 0.25)
+texture = ExtResource("1_raw7a")
+
+[node name="Surface8" type="StaticBody2D" parent="."]
+modulate = Color(0.114897, 0.114897, 0.114897, 1)
+position = Vector2(193, -292)
+scale = Vector2(71.9847, 0.529995)
+collision_layer = 4
+collision_mask = 15
+metadata/_edit_group_ = true
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Surface8"]
+position = Vector2(0, 2.54724)
+shape = SubResource("RectangleShape2D_tvvmk")
+
+[node name="Sprite2D" type="Sprite2D" parent="Surface8"]
+scale = Vector2(0.25, 0.25)
+texture = ExtResource("1_raw7a")
+
+[node name="Surface3" type="StaticBody2D" parent="."]
+modulate = Color(0.114897, 0.114897, 0.114897, 1)
+position = Vector2(-44, -36)
+scale = Vector2(3.04, 0.400001)
+collision_layer = 4
+collision_mask = 15
+metadata/_edit_group_ = true
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Surface3"]
+position = Vector2(0.164474, 0)
+shape = SubResource("RectangleShape2D_swul5")
+
+[node name="Sprite2D" type="Sprite2D" parent="Surface3"]
+scale = Vector2(0.25, 0.25)
+texture = ExtResource("1_raw7a")
+
+[node name="Surface6" type="StaticBody2D" parent="."]
+modulate = Color(0.114897, 0.114897, 0.114897, 1)
+position = Vector2(-314, 168)
+scale = Vector2(11.9012, 0.400001)
+collision_layer = 4
+collision_mask = 15
+metadata/_edit_group_ = true
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Surface6"]
+position = Vector2(-1.90735e-06, 0)
+shape = SubResource("RectangleShape2D_fqkjp")
+
+[node name="Sprite2D" type="Sprite2D" parent="Surface6"]
+scale = Vector2(0.25, 0.25)
+texture = ExtResource("1_raw7a")
+
+[node name="Surface2" type="StaticBody2D" parent="."]
+modulate = Color(0.114897, 0.114897, 0.114897, 1)
+position = Vector2(383, -24)
+rotation = -1.5708
+scale = Vector2(27.28, 0.400001)
+collision_layer = 4
+collision_mask = 15
+metadata/_edit_group_ = true
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Surface2"]
+shape = SubResource("RectangleShape2D_6tg1b")
+
+[node name="Sprite2D" type="Sprite2D" parent="Surface2"]
+scale = Vector2(0.25, 0.25)
+texture = ExtResource("1_raw7a")
+
+[node name="Surface4" type="StaticBody2D" parent="."]
+modulate = Color(0.114897, 0.114897, 0.114897, 1)
+position = Vector2(-113, -117)
+rotation = -1.5708
+scale = Vector2(11.44, 0.400001)
+collision_layer = 4
+collision_mask = 15
+metadata/_edit_group_ = true
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Surface4"]
+position = Vector2(0.0874147, -1.25003)
+shape = SubResource("RectangleShape2D_eakdd")
+
+[node name="Sprite2D" type="Sprite2D" parent="Surface4"]
+scale = Vector2(0.25, 0.25)
+texture = ExtResource("1_raw7a")
+
+[node name="Surface7" type="StaticBody2D" parent="."]
+modulate = Color(0.114897, 0.114897, 0.114897, 1)
+position = Vector2(-612, -69)
+rotation = -1.5708
+scale = Vector2(11.44, 0.400001)
+collision_layer = 4
+collision_mask = 15
+metadata/_edit_group_ = true
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Surface7"]
+position = Vector2(0.0874147, -1.25003)
+shape = SubResource("RectangleShape2D_eakdd")
+
+[node name="Sprite2D" type="Sprite2D" parent="Surface7"]
+scale = Vector2(0.25, 0.25)
+texture = ExtResource("1_raw7a")
+
+[node name="Bullets" type="Node" parent="."]
+
+[node name="Player" parent="." instance=ExtResource("2_7xj6h")]
+position = Vector2(42, -27)
+
+[node name="Camera2D" type="Camera2D" parent="Player"]
+limit_left = -626
+limit_top = -300
+limit_right = 526
+limit_bottom = 348
+editor_draw_limits = true
+
+[node name="RichTextLabel" type="RichTextLabel" parent="."]
+offset_left = -528.0
+offset_top = -293.0
+offset_right = -283.0
+offset_bottom = -188.0
+
+[node name="Enemies" type="Node" parent="."]
+
+[node name="Enemy" parent="Enemies" instance=ExtResource("4_4pptl")]
+position = Vector2(-138, 215)
+
+[node name="Enemy2" parent="Enemies" instance=ExtResource("4_4pptl")]
+position = Vector2(-368, 140)
+
+[node name="Door" parent="." instance=ExtResource("5_4elpx")]
+position = Vector2(-321, -28)
+destination = "World2"

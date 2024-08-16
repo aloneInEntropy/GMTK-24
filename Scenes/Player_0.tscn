@@ -1,0 +1,84 @@
+[gd_scene load_steps=7 format=3 uid="uid://cbul786ob5ee7"]
+
+[ext_resource type="Script" path="res://Scripts/Player_0.gd" id="1_ly33f"]
+[ext_resource type="Texture2D" uid="uid://cwow1skf4c7tc" path="res://quad_128.png" id="2_cdn8h"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_sehgg"]
+size = Vector2(32, 32)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_lh6el"]
+size = Vector2(24, 29)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_j13fu"]
+size = Vector2(70, 49)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_qmw8q"]
+size = Vector2(32, 16)
+
+[node name="Player" type="CharacterBody2D"]
+collision_mask = 15
+script = ExtResource("1_ly33f")
+DEFAULT_FACING_DIRECTION = null
+DEFAULT_OPP_FACING_DIRECTION = null
+DEFAULT_GUN_FACING_DIRECTION = null
+JUMP_CUTOFF = null
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_sehgg")
+
+[node name="Sprite" type="Sprite2D" parent="."]
+visible = false
+scale = Vector2(0.25, 0.25)
+texture = ExtResource("2_cdn8h")
+
+[node name="FacingDir" type="RayCast2D" parent="."]
+target_position = Vector2(27, 0)
+collision_mask = 4
+
+[node name="OppFacingDir" type="RayCast2D" parent="."]
+target_position = Vector2(-27, 0)
+collision_mask = 4
+
+[node name="FloorDetectorL" type="RayCast2D" parent="."]
+position = Vector2(16, 15)
+target_position = Vector2(0, 4)
+collision_mask = 14
+
+[node name="FloorDetectorR" type="RayCast2D" parent="."]
+position = Vector2(-16, 15)
+target_position = Vector2(0, 4)
+collision_mask = 14
+
+[node name="BulletCheck" type="RayCast2D" parent="."]
+target_position = Vector2(3000, 0)
+collision_mask = 34
+collide_with_areas = true
+
+[node name="Hitbox" type="Area2D" parent="."]
+collision_mask = 32
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Hitbox"]
+position = Vector2(0, 1.5)
+shape = SubResource("RectangleShape2D_lh6el")
+
+[node name="Interactbox" type="Area2D" parent="."]
+visible = false
+collision_mask = 16
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Interactbox"]
+position = Vector2(0, -8.5)
+shape = SubResource("RectangleShape2D_j13fu")
+
+[node name="Headbox" type="Area2D" parent="."]
+collision_mask = 12
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Headbox"]
+position = Vector2(0, -8)
+shape = SubResource("RectangleShape2D_qmw8q")
+
+[connection signal="area_entered" from="Hitbox" to="." method="_on_hitbox_area_entered"]
+[connection signal="area_exited" from="Hitbox" to="." method="_on_hitbox_area_exited"]
+[connection signal="area_entered" from="Interactbox" to="." method="_on_interactbox_area_entered"]
+[connection signal="area_exited" from="Interactbox" to="." method="_on_interactbox_area_exited"]
+[connection signal="body_entered" from="Headbox" to="." method="_on_headbox_body_entered"]
+[connection signal="body_exited" from="Headbox" to="." method="_on_headbox_body_exited"]

@@ -1,0 +1,22 @@
+- AL 0
+    - Player
+        - named CROWN
+        - shoots hitscan bullets
+    - Enemies/Hazards
+        - robots
+        - shoot physical bullets that can be shot and destroyed
+        - die in 3 hits
+        - drop bullets and healing items
+- AL 1
+    - Player
+        - named GEM
+        - focuses on movement
+    - Enemies/Hazards
+        - electric zaps
+- AL 2
+    - Player
+        - named RING
+        - grid/tile based movement
+    - Enemies/Hazards
+        - walls preventing access to exit
+

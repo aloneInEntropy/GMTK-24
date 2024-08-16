@@ -1,0 +1,76 @@
+- [ ] AL 0
+    - The base platformer. A building with robotic enemies that can detect the player and shoot at them. There are also several obstacles the player must manoeuvre around the building, going from room to room, killing enemies to get more bullets and health without dying.
+    - [ ] Player
+        - [x] Movement
+            - [x] Crouching
+            - [x] Wall climbing
+            - [x] Grabbed wall jumping
+            - [x] Wall sliding
+            - [x] Variable jump height
+            - [x] Grounded coyote time
+            - [x] Grabless wall jumping
+            - [x] Grab wall from any height
+            - [x] Differentiate between grounded jump and wall jump
+            - [x] Differentiate between grabbed jump and non-grabbed jump
+        - [x] Shooting
+            - [x] Hitscan shots
+            - [x] Shooting enemy bullets
+        - [ ] Health
+        - [ ] Death
+    - [x] Enemies
+        - [x] Movement
+            - [x] Random movement
+        - [x] Health
+        - [ ] Aggravation
+            - [ ] Remain aggro'd for a while after player is hidden (OPTIONAL)
+    - [ ] Interactables
+        - [ ] Abstraction layers
+        - [ ] Item pickups (OPTIONAL)
+            - [ ] Bullets
+            - [ ] Hearts
+        - [x] Doors
+        - [ ] Multiple levels
+    - [ ] Pause menu
+    - [ ] Sound effects
+        - [ ] Player footsteps
+        - [ ] Bullet shot
+        - [ ] Enemy hit
+        - [ ] Bullet hit
+        - [ ] Player hit
+        - [ ] Wall hit (OPTIONAL)
+    - [ ] Art and animations
+        - [ ] Environment
+            - [ ] Tileset
+            - [ ] Lighting
+            - [ ] Romm traversal animation
+        - [ ] Player
+            - [ ] Movement
+            - [ ] Jump
+            - [ ] Wall climb
+            - [ ] Crouch
+            - [ ] Death crumple animation
+            - [ ] Camera zoom into AL 1
+            - Death
+        - [ ] Enemies
+            - Death
+                - [ ] Explosion animation
+- [ ] AL 1
+    - A single room with parkour challenges. The player must reach a point in the room without dying to return to AL 0. Otherwise, they must descend to AL 2.
+    - [ ] Obstacles
+        - [ ] Non-grabbable walls
+        - [ ] Low ceilings
+        - [ ] Insta-kill traps
+            - Rising lava? Electricity?
+        - [ ] Moving objects (OPTIONAL)
+    - [ ] Art and animations
+        - [ ] Environment
+        - [ ] Player
+        - [ ] Enemies
+    - [ ] Camera into AL 0 (OPTIONAL)
+- [ ] AL 2
+    - A grid-based movement game. The player must move a tile into the correct position in a grid. Failure to do so within a time limit kills the player and randomises the grid. This will continue until the player reaches the position or they die 5 times.
+    - [ ] Obstacles
+        - [ ] Moving tiles (OPTIONAL)
+    - [ ] Time limit
+        - [ ] Randomising layout after time limit
+    - [ ] Camera into AL 1 (OPTIONAL)
