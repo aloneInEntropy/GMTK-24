@@ -4,7 +4,7 @@
 [ext_resource type="Texture2D" uid="uid://cwow1skf4c7tc" path="res://quad_128.png" id="2_ip4y4"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_6s846"]
-size = Vector2(6, 6)
+size = Vector2(6, 4)
 
 [node name="Bullet" type="Area2D"]
 collision_layer = 32

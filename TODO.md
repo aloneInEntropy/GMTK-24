@@ -57,12 +57,13 @@
             - [ ] Tileset
                 - [ ] Custom tileset (18x18)
                     - [ ] Background tiles
-                        - [ ] Wooden plank walls
-                        - [ ] Metallic walls
-                        - [ ] Transparent windows
-                        - [ ] Doors
+                        - [x] Wooden plank walls
+                        - [x] Metallic walls
+                        - [x] Metallic floor
+                        - [x] Transparent windows
+                        - [x] Doors
                     - [ ] Foreground tiles (OPTIONAL)
-                        - [ ] Wooden boxes
+                        - [x] Wooden boxes
             - [ ] Lighting
             - [ ] Romm traversal 
                 - [x] Fade to black
@@ -84,8 +85,8 @@
 - [ ] AL 1
     - A single room with parkour challenges. The player must reach a point in the room without dying to return to AL 0. Otherwise, they must descend to AL 2.
     - [ ] Obstacles
-        - [ ] Non-grabbable walls
-        - [ ] Low ceilings
+        - [x] Non-grabbable walls
+        - [x] Low ceilings
         - [ ] Insta-kill traps
             - Rising lava? Electricity?
         - [ ] Moving objects (OPTIONAL)

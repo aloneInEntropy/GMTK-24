@@ -41,4 +41,3 @@ libraries = {
 }
 
 [node name="GUI" parent="." instance=ExtResource("7_ofcfh")]
-process_mode = 3

@@ -10,7 +10,7 @@ func _process(delta):
 func setup(_dir: Vector2, _pos: Vector2, _speed: float):
 	speed = _speed
 	dir = _dir
-	position = _pos
+	position = _pos + Vector2(0, 3)
 
 func die():
 	print(name + " WAS DESTROYED")

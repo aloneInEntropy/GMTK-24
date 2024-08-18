@@ -167,6 +167,7 @@ target_position = Vector2(0, 4)
 collision_mask = 14
 
 [node name="BulletCheck" type="RayCast2D" parent="."]
+position = Vector2(0, 3)
 target_position = Vector2(3000, 0)
 collision_mask = 34
 collide_with_areas = true
