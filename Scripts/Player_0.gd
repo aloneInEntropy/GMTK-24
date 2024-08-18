@@ -107,11 +107,10 @@ func _process(_delta):
 				hit_item.take_damage()
 				if hit_item.is_queued_for_deletion():
 					# enemy just died
-					bullet_count += 2
+					bullet_count += 1
 					_hitmark_lock = null
 			elif hit_item is Bullet:
 				# play bullet hit sound
-				bullet_count += 1
 				hit_item.die()
 			else:
 				# play wall hit sound
