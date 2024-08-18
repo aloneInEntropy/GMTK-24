@@ -1,0 +1,44 @@
+[gd_scene load_steps=10 format=3 uid="uid://b3lfgcqge3iik"]
+
+[ext_resource type="PackedScene" uid="uid://dqicif111sykx" path="res://Scenes/Player_2.tscn" id="1_2cjvs"]
+[ext_resource type="Script" path="res://Scripts/RING_World.gd" id="1_3y0h1"]
+[ext_resource type="TileSet" uid="uid://cd3qvsgfx5pmr" path="res://Scenes/world0_tileset.tres" id="2_tapij"]
+[ext_resource type="PackedScene" uid="uid://dnsbyf0rnewoq" path="res://Scenes/Target.tscn" id="3_negex"]
+[ext_resource type="Animation" uid="uid://dteq76qrgir20" path="res://Scenes/zoom_out_player.res" id="5_d5voa"]
+[ext_resource type="Animation" uid="uid://wn8pijvgb2on" path="res://Scenes/zoom_in_player.res" id="6_ro2sc"]
+[ext_resource type="PackedScene" uid="uid://bmr1wuaorpuic" path="res://Scenes/GUI.tscn" id="7_ofcfh"]
+
+[sub_resource type="Animation" id="Animation_sdbmr"]
+length = 0.001
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_b7y41"]
+_data = {
+"RESET": SubResource("Animation_sdbmr"),
+"zoom_in_player": ExtResource("6_ro2sc"),
+"zoom_out_player": ExtResource("5_d5voa")
+}
+
+[node name="World" type="Node2D"]
+script = ExtResource("1_3y0h1")
+
+[node name="Player2" parent="." instance=ExtResource("1_2cjvs")]
+
+[node name="Camera2D" type="Camera2D" parent="."]
+zoom = Vector2(1.5, 1.5)
+
+[node name="TileMap" type="TileMap" parent="."]
+tile_set = ExtResource("2_tapij")
+format = 2
+layer_0/tile_data = PackedInt32Array(393209, 458757, 4, 393210, 458757, 4, 327686, 458757, 4, 327687, 458757, 4, 327688, 458757, 4, -327687, 458757, 4, -327686, 458757, 4, -327685, 458757, 4, 393211, 458757, 4, -327684, 458757, 4, 393212, 458757, 4, -327683, 458757, 4, 393213, 458757, 4, -327682, 458757, 4, 393214, 458757, 4, -327681, 458757, 4, 393215, 458757, 4, -393216, 458757, 4, 327680, 458757, 4, -393215, 458757, 4, 327681, 458757, 4, -393214, 458757, 4, 327682, 458757, 4, -393213, 458757, 4, 327683, 458757, 4, -393212, 458757, 4, 327684, 458757, 4, -393211, 458757, 4, 327685, 458757, 4, -393210, 458757, 4, -393209, 458757, 4, -393208, 458757, 4, -327691, 458757, 4, -262155, 458757, 4, -196619, 458757, 4, -131083, 458757, 4, -11, 458757, 4, 65525, 458757, 4, 131061, 458757, 4, 196597, 458757, 4, 262133, 458757, 4, 327669, 458757, 4, 393205, 458757, 4, -327690, 458757, 4, 393206, 458757, 4, -327689, 458757, 4, 393207, 458757, 4, -327688, 458757, 4, 393208, 458757, 4, -393207, 458757, 4, 327689, 458757, 4, -393206, 458757, 4, -327670, 458757, 4, -262134, 458757, 4, -131062, 458757, 4, -65526, 458757, 4, 10, 458757, 4, 65546, 458757, 4, 131082, 458757, 4, 196618, 458757, 4, 262154, 458757, 4, 327690, 458757, 4, -196598, 458757, 4, -65547, 458757, 4)
+
+[node name="Target" parent="." instance=ExtResource("3_negex")]
+position = Vector2(99, -45)
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+process_mode = 3
+libraries = {
+"": SubResource("AnimationLibrary_b7y41")
+}
+
+[node name="GUI" parent="." instance=ExtResource("7_ofcfh")]
+process_mode = 3

@@ -12,7 +12,7 @@
             - [x] Grab wall from any height
             - [x] Differentiate between grounded jump and wall jump
             - [x] Differentiate between grabbed jump and non-grabbed jump
-        - [x] Shooting
+        - [x] Shooting  
             - [x] Hitscan shots
             - [x] Shooting enemy bullets
         - [ ] Health
@@ -29,7 +29,7 @@
             - [ ] Bullets
             - [ ] Hearts
         - [x] Doors
-        - [ ] Multiple levels
+        - [x] Multiple levels
     - [ ] Pause menu
     - [ ] Sound effects
         - [ ] Player footsteps
@@ -38,22 +38,49 @@
         - [ ] Bullet hit
         - [ ] Player hit
         - [ ] Wall hit (OPTIONAL)
+    - [ ] Rooms
+        - [x] 1
+        - [x] 2
+        - [ ] 3
+        - [ ] 4
+        - [ ] 5
+        - [ ] 6
+        - [ ] 7
+        - [ ] 8
+        - [ ] 9
+        - [ ] 10
+        - [ ] 11
+        - [ ] 12
+        - [ ] Final Room
     - [ ] Art and animations
         - [ ] Environment
             - [ ] Tileset
+                - [ ] Custom tileset (18x18)
+                    - [ ] Background tiles
+                        - [ ] Wooden plank walls
+                        - [ ] Metallic walls
+                        - [ ] Transparent windows
+                        - [ ] Doors
+                    - [ ] Foreground tiles (OPTIONAL)
+                        - [ ] Wooden boxes
             - [ ] Lighting
-            - [ ] Romm traversal animation
+            - [ ] Romm traversal 
+                - [x] Fade to black
+                - [x] Animation (OPTIONAL)
         - [ ] Player
-            - [ ] Movement
-            - [ ] Jump
-            - [ ] Wall climb
-            - [ ] Crouch
+            - [x] Movement
+            - [x] Idle
+            - [x] Shooting
+            - [x] Jump
+            - [x] Wall climb
+            - [x] Crouch
             - [ ] Death crumple animation
-            - [ ] Camera zoom into AL 1
-            - Death
+            - [x] Camera zoom into AL 1
         - [ ] Enemies
-            - Death
-                - [ ] Explosion animation
+            - [ ] Death
+            - [x] Idle/Movement
+            - [x] Shooting
+                - [ ] Explosion animation (OPTIONAL)
 - [ ] AL 1
     - A single room with parkour challenges. The player must reach a point in the room without dying to return to AL 0. Otherwise, they must descend to AL 2.
     - [ ] Obstacles
@@ -69,6 +96,7 @@
     - [ ] Camera into AL 0 (OPTIONAL)
 - [ ] AL 2
     - A grid-based movement game. The player must move a tile into the correct position in a grid. Failure to do so within a time limit kills the player and randomises the grid. This will continue until the player reaches the position or they die 5 times.
+    - [x] Target
     - [ ] Obstacles
         - [ ] Moving tiles (OPTIONAL)
     - [ ] Time limit

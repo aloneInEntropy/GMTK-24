@@ -1,0 +1,15 @@
+[gd_scene load_steps=3 format=3 uid="uid://dnsbyf0rnewoq"]
+
+[ext_resource type="Texture2D" uid="uid://binx8vqdcurvy" path="res://Assets/Sprites/Player/Hitmark.png" id="1_6lpdy"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_jh1sx"]
+size = Vector2(17, 17)
+
+[node name="Target" type="Area2D"]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_jh1sx")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+modulate = Color(1, 0, 0, 1)
+texture = ExtResource("1_6lpdy")
