@@ -9,11 +9,10 @@ class_name Level extends Node2D
 @onready var anim := $AnimationPlayer
 @onready var gui : GUI = $GUI
 @onready var camera : Camera2D = $Camera2D
+@onready var bridge_cams := $BridgeCams
 @onready var tilemap : TileMap = $TileMap
 
 @export var player_default_position : Vector2
-
-var bridge_positions : Array[Vector2]
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
@@ -24,15 +23,16 @@ func _ready():
 	else:
 		player.position = player_default_position
 	AM.crown_scene = name
-	if AM.awaiting_bridge:
-		make_bridge()
+	make_bridges()
 	set_camera_limits()
 	play_zoom_out()
-	player.connect("died", descend_layer)
+	player.connect("died", handle_player_death)
+	SB.using_terminal.connect(descend_layer)
+	SB.show_bridge.connect(handle_show_bridge)
 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(delta):
+func _process(_delta):
 	gui.lbl_a.text = str(player.bullet_count)
 	gui.lbl_b.text = str(player.health)
 	
@@ -50,13 +50,19 @@ func play_zoom_out():
 	anim.play("zoom_out_player")
 	return gui.transition_out()
 
-func descend_layer():
+func handle_player_death():
 	get_tree().paused = true
 	AM.player0_pos = player.global_position
 	await play_zoom_in().animation_finished
-	get_tree().change_scene_to_file("res://Scenes/" + AM.ring_scene + ".tscn")
+	get_tree().reload_current_scene()
 
-func descend_layer2(v : Vector2i, p: Vector2):
+func handle_show_bridge(_show: bool, cam_pos: Vector2):
+	# bridge_cams.find_child(cam_name).enabled = _show
+	# camera.enabled = !_show
+	player_rt.global_position = cam_pos if _show else player.position
+
+func descend_layer(v : Vector2i, p: Vector2, t: Terminal):
+	AM.active_terminal = t.name
 	get_tree().paused = true
 	AM.player0_pos = player.global_position
 	AM.descend_layer2(v.x, v.y, p)
@@ -68,18 +74,22 @@ func ascend_layer():
 	AM.ascend_layer()
 
 func set_camera_limits(disable : bool = false):
-	camera.limit_right = 1000000 if disable else int(limit_br.position.x)
-	camera.limit_bottom = 1000000 if disable else int(limit_br.position.y)
-	camera.limit_top = -1000000 if disable else int(limit_tl.position.y) 
-	camera.limit_left = -1000000 if disable else int(limit_tl.position.x)
-	camera.drag_horizontal_enabled = !disable
-	camera.drag_vertical_enabled = !disable
-	camera.position_smoothing_enabled = !disable
-	pass
+	for cam : Camera2D in bridge_cams.get_children():
+		cam.limit_right = 1000000 if disable else int(limit_br.position.x)
+		cam.limit_bottom = 1000000 if disable else int(limit_br.position.y)
+		cam.limit_top = -1000000 if disable else int(limit_tl.position.y) 
+		cam.limit_left = -1000000 if disable else int(limit_tl.position.x)
+		cam.drag_horizontal_enabled = !disable
+		cam.drag_vertical_enabled = !disable
+		cam.position_smoothing_enabled = !disable
 
-func make_bridge():
+func make_bridges():
+	## todo: fix incorrect block counts
 	AM.awaiting_bridge = false
-	AM.active_bridge_num += 1
-	for v in AM.active_bridge_struct.bridge_vectors:
-		tilemap.set_cell(2, AM.active_bridge_struct.position/18 + v, 0, Vector2i(2, 1))
-		print(v)
+	if AM.lvl_terminals[name]:
+		var terminals = AM.lvl_terminals[name] as Dictionary
+		for t : String in terminals:
+			var term = get_node(t) as Terminal
+			var pos = term.bridge_position
+			for v in terminals[t].bridge_vectors:
+				tilemap.set_cell(2, pos/18 + Vector2i(v), 0, Vector2i(2, 1))

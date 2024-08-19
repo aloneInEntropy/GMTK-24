@@ -90,9 +90,9 @@
     - [ ] Obstacles (OPTIONAL)
         - [ ] Moving tiles
     - [ ] Time limit
-        - [ ] Auto-accepting
+        - [ ] Auto-accepting (OPTIONAL)
     - [ ] Camera into CROWN (OPTIONAL)
-    - [ ] Allow auto-movement
+    - [x] Allow auto-movement
 - [ ] UI
     - [ ] Font
     - [ ] Main menu

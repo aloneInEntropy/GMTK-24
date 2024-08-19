@@ -14,7 +14,7 @@ class_name Player2 extends Area2D
 
 # ------------------ const variables ----------------- #
 ## max frames before the player can move again
-const MOVEMENT_MAX_TIME := 4
+const MOVEMENT_MAX_TIME := 6
 # ----------------------- enums ---------------------- #
 
 # ---------------------- signals ---------------------- #
@@ -48,24 +48,25 @@ func _process(_delta):
 
 func _physics_process(_delta):
 	var direction : Vector2
-	if Input.is_action_just_pressed("ui_left"):
+	if Input.is_action_pressed("ui_left"):
 		direction = Vector2(-1, 0)
-	if Input.is_action_just_pressed("ui_right"):
+	if Input.is_action_pressed("ui_right"):
 		direction = Vector2(1, 0)
-	if Input.is_action_just_pressed("ui_up"):
+	if Input.is_action_pressed("ui_up"):
 		direction = Vector2(0, -1)
-	if Input.is_action_just_pressed("ui_down"):
+	if Input.is_action_pressed("ui_down"):
 		direction = Vector2(0, 1)
-	if direction and _movement_timer == _TIMER_MIN_RESET:
+	if _movement_timer == _TIMER_MIN_RESET:
 		recalculate_group_sizes(get_sticky_children())
-		var check_dist := expand_check(direction)
-		ob_check.target_position = direction * check_dist
-		ob_check.force_raycast_update() # check collision immediately
-		if !ob_check.is_colliding():
-			_movement_timer = MOVEMENT_MAX_TIME
-			_last_direction = direction.normalized()
-			position += direction * TILE_SIZE
-	if stick_check_l.is_colliding() and stick_check_l.get_collider() is Sticky:
+		if direction:
+			var check_dist := expand_check(direction)
+			ob_check.target_position = direction * check_dist
+			ob_check.force_raycast_update() # check collision immediately
+			if !ob_check.is_colliding():
+				_movement_timer = MOVEMENT_MAX_TIME
+				_last_direction = direction.normalized()
+				position += direction * TILE_SIZE
+	if stick_check_l.is_colliding() and is_instance_valid(stick_check_l.get_collider()) and stick_check_l.get_collider() is Sticky:
 		## LEFT
 		stick_check_l.enabled = false
 		group_width_left += TILE_SIZE
@@ -75,8 +76,8 @@ func _physics_process(_delta):
 		c.reparent(self)
 		c.p_reparent(world, self)
 		SB.sticky_joined.emit()
-		# stick_check_u.force_raycast_update() # check collision immediately
-	if stick_check_u.is_colliding() and stick_check_u.get_collider() is Sticky:
+		stick_check_u.force_raycast_update() # check collision immediately
+	if stick_check_u.is_colliding() and is_instance_valid(stick_check_u.get_collider()) and stick_check_u.get_collider() is Sticky:
 		## UP
 		stick_check_u.enabled = false
 		group_height_up += TILE_SIZE
@@ -86,8 +87,8 @@ func _physics_process(_delta):
 		c.reparent(self)
 		c.p_reparent(world, self)
 		SB.sticky_joined.emit()
-		# stick_check_d.force_raycast_update() # check collision immediately
-	if stick_check_d.is_colliding() and stick_check_d.get_collider() is Sticky:
+		stick_check_d.force_raycast_update() # check collision immediately
+	if stick_check_d.is_colliding() and is_instance_valid(stick_check_d.get_collider()) and stick_check_d.get_collider() is Sticky:
 		## DOWN
 		group_height_down += TILE_SIZE
 		stick_check_d.enabled = false
@@ -95,10 +96,10 @@ func _physics_process(_delta):
 		c.is_attached = true
 		c.stick_check_u.enabled = false
 		c.reparent(self)
-		# stick_check_r.force_raycast_update() # check collision immediately
+		stick_check_r.force_raycast_update() # check collision immediately
 		c.p_reparent(world, self)
 		SB.sticky_joined.emit()
-	if stick_check_r.is_colliding() and stick_check_r.get_collider() is Sticky:
+	if stick_check_r.is_colliding() and is_instance_valid(stick_check_r.get_collider()) and stick_check_r.get_collider() is Sticky:
 		## RIGHT
 		stick_check_r.enabled = false
 		group_width_right += TILE_SIZE
@@ -106,15 +107,25 @@ func _physics_process(_delta):
 		c.is_attached = true
 		c.stick_check_l.enabled = false
 		c.reparent(self)
-		# stick_check_l.force_raycast_update() # check collision immediately
+		stick_check_l.force_raycast_update() # check collision immediately
 		c.p_reparent(world, self)
 		SB.sticky_joined.emit()
 	_movement_timer = int(move_toward(_movement_timer, _TIMER_MIN_RESET, 1))
 
 func _input(event):
 	if event.is_action_pressed("submit"):
-		print(pos_array)
 		SB.bridge_submitted.emit(pos_array)
+	if event.is_action_pressed("reset"):
+		var sc := get_sticky_children().size()
+		for i in range(sc - 1, -1, -1):
+			var c = get_sticky_children()[i]
+			remove_child(c)
+			c.queue_free()
+		group_width_left = TILE_SIZE
+		group_width_right = TILE_SIZE
+		group_height_up = TILE_SIZE
+		group_height_down = TILE_SIZE
+		SB.bridge_reset.emit(sc)
 
 func check_can_move() -> bool:
 	return true

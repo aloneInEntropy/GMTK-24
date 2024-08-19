@@ -1,4 +1,4 @@
-[gd_scene load_steps=11 format=3 uid="uid://cbul786ob5ee7"]
+[gd_scene load_steps=11 format=3 uid="uid://b10u4gvqy8rcj"]
 
 [ext_resource type="Script" path="res://Scripts/Player_0.gd" id="1_ly33f"]
 [ext_resource type="SpriteFrames" uid="uid://cscemie4077pa" path="res://Assets/Sprites/Player/Player_anims.tres" id="3_tdkr0"]
@@ -169,7 +169,7 @@ collision_mask = 14
 [node name="BulletCheck" type="RayCast2D" parent="."]
 position = Vector2(0, 3)
 target_position = Vector2(3000, 0)
-collision_mask = 34
+collision_mask = 46
 collide_with_areas = true
 
 [node name="Hitbox" type="Area2D" parent="."]

@@ -307,7 +307,11 @@ func _on_headbox_body_exited(body: Node2D):
 func _on_interactbox_area_entered(area: Area2D):
 	can_interact = true
 	interactable = area
+	if area is Terminal:
+		SB.show_bridge.emit(true, area.bridge_position)
 
-func _on_interactbox_area_exited(_area: Area2D):
+func _on_interactbox_area_exited(area: Area2D):
 	can_interact = false
 	interactable = null
+	if area is Terminal:
+		SB.show_bridge.emit(false, area.bridge_position)

@@ -20,34 +20,34 @@ func _ready():
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _physics_process(_delta):
-	if stick_check_l.is_colliding() and stick_check_l.get_collider() is Sticky and !stick_check_l.get_collider().is_attached:
+	if stick_check_l.is_colliding() and is_instance_valid(stick_check_l.get_collider()) and stick_check_l.get_collider() is Sticky and !stick_check_l.get_collider().is_attached:
 		stick_check_l.enabled = false
 		var c := stick_check_l.get_collider() as Sticky
 		c.is_attached = true
 		c.reparent(player, true)
 		SB.sticky_joined.emit()
-		# stick_check_u.force_raycast_update() # check collision immediately
-	if stick_check_u.is_colliding() and stick_check_u.get_collider() is Sticky and !stick_check_u.get_collider().is_attached:
+		stick_check_u.force_raycast_update() # check collision immediately
+	if stick_check_u.is_colliding() and is_instance_valid(stick_check_u.get_collider()) and stick_check_u.get_collider() is Sticky and !stick_check_u.get_collider().is_attached:
 		stick_check_u.enabled = false
 		var c := stick_check_u.get_collider() as Sticky
 		c.is_attached = true
 		c.reparent(player, true)
 		SB.sticky_joined.emit()
-		# stick_check_d.force_raycast_update() # check collision immediately
-	if stick_check_d.is_colliding() and stick_check_d.get_collider() is Sticky and !stick_check_d.get_collider().is_attached:
+		stick_check_d.force_raycast_update() # check collision immediately
+	if stick_check_d.is_colliding() and is_instance_valid(stick_check_d.get_collider()) and stick_check_d.get_collider() is Sticky and !stick_check_d.get_collider().is_attached:
 		stick_check_d.enabled = false
 		var c := stick_check_d.get_collider() as Sticky
 		c.is_attached = true
 		c.reparent(player, true)
 		SB.sticky_joined.emit()
-		# stick_check_r.force_raycast_update() # check collision immediately
-	if stick_check_r.is_colliding() and stick_check_r.get_collider() is Sticky and !stick_check_r.get_collider().is_attached:
+		stick_check_r.force_raycast_update() # check collision immediately
+	if stick_check_r.is_colliding() and is_instance_valid(stick_check_r.get_collider()) and stick_check_r.get_collider() is Sticky and !stick_check_r.get_collider().is_attached:
 		stick_check_r.enabled = false
 		var c := stick_check_r.get_collider() as Sticky
 		c.is_attached = true
 		c.reparent(player, true)
 		SB.sticky_joined.emit()
-		# stick_check_l.force_raycast_update() # check collision immediately
+		stick_check_l.force_raycast_update() # check collision immediately
 
 func setup(pos: Vector2):
 	position = pos.snapped(Vector2.ONE * TILE_SIZE)

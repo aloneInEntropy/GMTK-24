@@ -1,7 +1,7 @@
 [gd_scene load_steps=11 format=3 uid="uid://kk7byi4frps2"]
 
 [ext_resource type="Script" path="res://Scripts/World.gd" id="1_6uub4"]
-[ext_resource type="PackedScene" uid="uid://cbul786ob5ee7" path="res://Scenes/Player_0.tscn" id="2_13bwn"]
+[ext_resource type="PackedScene" uid="uid://b10u4gvqy8rcj" path="res://Scenes/Player_0.tscn" id="2_13bwn"]
 [ext_resource type="PackedScene" uid="uid://b0x1hf0cxved5" path="res://Scenes/Enemy.tscn" id="3_180u3"]
 [ext_resource type="PackedScene" uid="uid://dlhy1ldll77c" path="res://Scenes/Door.tscn" id="4_xe7sf"]
 [ext_resource type="TileSet" uid="uid://cd3qvsgfx5pmr" path="res://Scenes/world0_tileset.tres" id="5_cih4c"]

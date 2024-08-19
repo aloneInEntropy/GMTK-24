@@ -15,10 +15,23 @@ var gem_scene: String
 var ring_scene := "RING_World"
 var player2: Player2
 
-var block_count: int
+var block_count: int = 20
 var active_bridge_struct: BridgeStruct
 var active_bridge_num: int
 var awaiting_bridge: bool
+var active_terminal: String ## name of active terminal
+var terminals: Dictionary ## Dictionary[String, Bridge] of terminals
+
+## Dictionary[String, Dictionary[String, Bridge]] of terminals in each level
+var lvl_terminals : Dictionary = {
+	"level_1": null,
+	"level_2": null,
+	"level_3": null,
+	"level_4": null,
+	"level_5": null,
+	"level_final": null,
+	"level_test": null,
+}
 
 func descend_layer():
 	match abs_layer:
@@ -32,10 +45,11 @@ func descend_layer():
 			print("ERROR: INVALID LAYER")
 
 func descend_layer2(w: int, h: int, pos: Vector2):
-	active_bridge_struct = BridgeStruct.new(w, h, pos)
-	print("width")
+	if terminals.has(active_terminal):
+		active_bridge_struct = terminals[active_terminal]
+	else:
+		active_bridge_struct = BridgeStruct.new(w, h, pos)
 	AM.awaiting_bridge = true
-	print(abs_layer)
 	match abs_layer:
 		AL.CROWN:
 			abs_layer = AL.RING
@@ -47,7 +61,6 @@ func descend_layer2(w: int, h: int, pos: Vector2):
 			print("ERROR: INVALID LAYER")
 
 func ascend_layer():
-	AM.block_count = 0
 	match abs_layer:
 		AL.RING:
 			abs_layer = AL.CROWN
@@ -57,3 +70,20 @@ func ascend_layer():
 		# 	print("ERROR: CANNOT ASCEND FURTHER")
 		_:
 			print("ERROR: INVALID LAYER")
+
+func reset_active_terminal(returned_tiles_count : int):
+	print(returned_tiles_count)
+	if active_bridge_struct.complete:
+		# only return count if the bridge was actually built
+		block_count += returned_tiles_count
+	active_bridge_struct = BridgeStruct.new(active_bridge_struct.width, active_bridge_struct.height, active_bridge_struct.position)
+	terminals[active_terminal] = active_bridge_struct
+
+func update_bridge(vs: PackedVector2Array):
+	var prev_size := active_bridge_struct.bridge_vectors.size()
+	# print(vs.size() - prev_size)
+	block_count -= vs.size() - prev_size
+	active_bridge_struct.create_bridge(vs)
+	active_bridge_struct.complete = true
+	terminals[active_terminal] = active_bridge_struct
+	lvl_terminals[crown_scene] = terminals

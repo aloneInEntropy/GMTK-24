@@ -5,8 +5,9 @@ class_name Terminal extends Area2D
 @export var bridge_size := Vector2i()
 @export var bridge_position := Vector2i()
 
+var bridge : BridgeStruct
 
 ## Go to the specified scene
 func use():
-	world.descend_layer2(bridge_size, bridge_position)
+	SB.using_terminal.emit(bridge_size, bridge_position, self)
 
