@@ -1,9 +1,10 @@
-- [ ] AL 0
-    - The base platformer. A building with robotic enemies that can detect the player and shoot at them. There are also several obstacles the player must manoeuvre around the building, going from room to room, killing enemies to get more bullets and health without dying.
-    - [ ] Player
+- [ ] CROWN
+    - The base platformer. A building with robotic enemies that can detect the player and shoot at them. There are also several obstacles the player must manoeuvre around the building, going from room to room, killing enemies to get more blocks to build bridges with.
+    - [x] Player
         - [x] Movement
             - [x] Crouching
             - [x] Wall climbing
+                - [ ] Switch from raycasts to Area2Ds for conssistency (OPTIONAL)
             - [x] Grabbed wall jumping
             - [x] Wall sliding
             - [x] Variable jump height
@@ -15,8 +16,8 @@
         - [x] Shooting  
             - [x] Hitscan shots
             - [x] Shooting enemy bullets
-        - [ ] Health
-        - [ ] Death
+        - [x] Health
+        - [x] Death
     - [x] Enemies
         - [x] Movement
             - [x] Random movement
@@ -24,12 +25,14 @@
         - [ ] Aggravation
             - [ ] Remain aggro'd for a while after player is hidden (OPTIONAL)
     - [ ] Interactables
-        - [ ] Abstraction layers
+        - [x] Abstraction layers
         - [ ] Item pickups (OPTIONAL)
             - [ ] Bullets
             - [ ] Hearts
+            - [ ] Blocks
         - [x] Doors
         - [x] Multiple levels
+        - [x] Terminals
     - [ ] Pause menu
     - [ ] Sound effects
         - [ ] Player footsteps
@@ -39,33 +42,28 @@
         - [ ] Player hit
         - [ ] Wall hit (OPTIONAL)
     - [ ] Rooms
-        - [x] 1
-        - [x] 2
+        - [ ] 1
+        - [ ] 2
         - [ ] 3
         - [ ] 4
         - [ ] 5
-        - [ ] 6
-        - [ ] 7
-        - [ ] 8
-        - [ ] 9
-        - [ ] 10
-        - [ ] 11
-        - [ ] 12
         - [ ] Final Room
     - [ ] Art and animations
         - [ ] Environment
+            - [x] Backgrounds
+                - [ ] Parallax (OPTIONAL)
             - [ ] Tileset
-                - [ ] Custom tileset (18x18)
-                    - [ ] Background tiles
+                - [x] Custom tileset (18x18)
+                    - [x] Background tiles
                         - [x] Wooden plank walls
                         - [x] Metallic walls
                         - [x] Metallic floor
                         - [x] Transparent windows
                         - [x] Doors
-                    - [ ] Foreground tiles (OPTIONAL)
+                    - [x] Foreground tiles (OPTIONAL)
                         - [x] Wooden boxes
             - [ ] Lighting
-            - [ ] Romm traversal 
+            - [x] Romm traversal 
                 - [x] Fade to black
                 - [x] Animation (OPTIONAL)
         - [ ] Player
@@ -82,24 +80,18 @@
             - [x] Idle/Movement
             - [x] Shooting
                 - [ ] Explosion animation (OPTIONAL)
-- [ ] AL 1
-    - A single room with parkour challenges. The player must reach a point in the room without dying to return to AL 0. Otherwise, they must descend to AL 2.
-    - [ ] Obstacles
-        - [x] Non-grabbable walls
-        - [x] Low ceilings
-        - [ ] Insta-kill traps
-            - Rising lava? Electricity?
-        - [ ] Moving objects (OPTIONAL)
-    - [ ] Art and animations
-        - [ ] Environment
-        - [ ] Player
-        - [ ] Enemies
-    - [ ] Camera into AL 0 (OPTIONAL)
-- [ ] AL 2
-    - A grid-based movement game. The player must move a tile into the correct position in a grid. Failure to do so within a time limit kills the player and randomises the grid. This will continue until the player reaches the position or they die 5 times.
+- [ ] GEM
+    - A grid-based movement game. The player must move a tile to touch other "sticky" tiles. After a time limit, or when the player decides to return, the end structure will create a bridge in the main level.
     - [x] Target
-    - [ ] Obstacles
-        - [ ] Moving tiles (OPTIONAL)
+    - [ ] Obstacles (OPTIONAL)
+        - [ ] Moving tiles
     - [ ] Time limit
-        - [ ] Randomising layout after time limit
-    - [ ] Camera into AL 1 (OPTIONAL)
+        - [ ] Auto-accepting
+    - [ ] Camera into CROWN (OPTIONAL)
+- [ ] UI
+    - [ ] Font
+    - [ ] Main menu
+    - [ ] Pause menu
+    - [ ] Game UI
+        - [ ] CROWN
+        - [ ] GEM

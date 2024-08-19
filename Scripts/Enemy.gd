@@ -1,6 +1,6 @@
 class_name Enemy extends CharacterBody2D
 
-@onready var world : World0 = get_parent().get_parent()
+@onready var world := get_parent().get_parent()
 @onready var player_check : RayCast2D = $PlayerCheck
 @onready var opp_player_check : RayCast2D = $OppPlayerCheck
 @onready var floor_detector_l : RayCast2D= $FloorDetectorL

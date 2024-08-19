@@ -1,0 +1,17 @@
+[gd_scene load_steps=4 format=3 uid="uid://dwmtfm8xlvnw2"]
+
+[ext_resource type="Texture2D" uid="uid://cwow1skf4c7tc" path="res://quad_128.png" id="1_jf3d3"]
+[ext_resource type="Script" path="res://Scripts/Terminal.gd" id="1_qyqvb"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_lrwvy"]
+
+[node name="Terminal" type="Area2D"]
+collision_layer = 16
+script = ExtResource("1_qyqvb")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_lrwvy")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+scale = Vector2(0.25, 0.25)
+texture = ExtResource("1_jf3d3")

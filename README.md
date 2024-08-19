@@ -5,9 +5,9 @@ Repository for GMTK 2024 Game Jam
 ### Theme
 "Built to Scale"
 ### Name
-Abstraction
+Structura
 ### Plot
-You play as CROWN, an android tasked with infiltrating the lair of an evil mastermind and capturing him. You can shoot enemies and collect their parts for health. But beware: move too fast or take too much damage, and you'll overheat. When this happens, you must complete the tasks within your body to fix it from the outside. But beware (again): even this miniature version of you can overheat. You can descend one final layer to your base parts to rebuild yourself once more. 
+You play as CROWN, an android tasked with escaping the lair of an evil mastermind and going back home. You can shoot enemies and kill them to get building blocks. But beware: several sections of the environment have been destroyed. To fix these, you must use the various terminals around levels. In these terminals, you control a single pixel on a grid with your collected building blocks scattered randomly. You must move around, adding blocks to yourself to create a bridge to make it across the gap. Can you make it across all 5 levels and beat the game?
 
 
 ## Credit

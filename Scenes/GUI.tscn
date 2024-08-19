@@ -12,13 +12,11 @@ offset_left = 81.0
 offset_top = 97.0
 offset_right = 312.0
 offset_bottom = 155.0
-text = "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
 
 [node name="PlayerHealth" type="RichTextLabel" parent="."]
 offset_left = 82.0
 offset_top = 31.0
 offset_right = 313.0
 offset_bottom = 89.0
-text = "BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB"
 
 [node name="CircleTransition" parent="." instance=ExtResource("1_7nojl")]

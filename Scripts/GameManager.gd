@@ -2,6 +2,8 @@ extends Node
 
 ## Bullet scene object
 var _bullet_scene = preload("res://Scenes/Bullet.tscn")
+## Sticky block scene object
+var sticky_scene := preload("res://Scenes/Sticky.tscn")
 
 var player_bullets : int
 var player_health : int

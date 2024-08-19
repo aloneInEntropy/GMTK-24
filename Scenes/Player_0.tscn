@@ -149,20 +149,20 @@ script = ExtResource("1_ly33f")
 shape = SubResource("RectangleShape2D_sehgg")
 
 [node name="FacingDir" type="RayCast2D" parent="."]
-target_position = Vector2(27, 0)
+target_position = Vector2(17, 0)
 collision_mask = 4
 
 [node name="OppFacingDir" type="RayCast2D" parent="."]
-target_position = Vector2(-27, 0)
+target_position = Vector2(-17, 0)
 collision_mask = 4
 
 [node name="FloorDetectorL" type="RayCast2D" parent="."]
-position = Vector2(16, 15)
+position = Vector2(8, 15)
 target_position = Vector2(0, 4)
 collision_mask = 14
 
 [node name="FloorDetectorR" type="RayCast2D" parent="."]
-position = Vector2(-16, 15)
+position = Vector2(-8, 16)
 target_position = Vector2(0, 4)
 collision_mask = 14
 

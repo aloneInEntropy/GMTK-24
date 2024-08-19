@@ -103,3 +103,12 @@ libraries = {
 }
 
 [node name="GUI" parent="." instance=ExtResource("9_xtxnl")]
+visible = false
+
+[node name="Limits" type="Node" parent="."]
+
+[node name="MarkerTL" type="Marker2D" parent="Limits"]
+position = Vector2(-626, -876)
+
+[node name="MarkerBR" type="Marker2D" parent="Limits"]
+position = Vector2(526, 348)

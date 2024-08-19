@@ -1,0 +1,34 @@
+[gd_scene load_steps=4 format=3 uid="uid://bwnx34yube8jt"]
+
+[ext_resource type="Script" path="res://Scripts/Sticky.gd" id="1_krdnc"]
+[ext_resource type="Texture2D" uid="uid://dq8cy1bt82bw5" path="res://Assets/Sprites/Custom/BlueBall.png" id="1_wgc8d"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_s1rdk"]
+size = Vector2(18, 18)
+
+[node name="Sticky" type="Area2D"]
+script = ExtResource("1_krdnc")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_s1rdk")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = ExtResource("1_wgc8d")
+
+[node name="StickCheckU" type="RayCast2D" parent="."]
+target_position = Vector2(0, -9)
+collide_with_areas = true
+
+[node name="StickCheckD" type="RayCast2D" parent="."]
+target_position = Vector2(0, 9)
+collide_with_areas = true
+
+[node name="StickCheckL" type="RayCast2D" parent="."]
+target_position = Vector2(-9, 0)
+collide_with_areas = true
+
+[node name="StickCheckR" type="RayCast2D" parent="."]
+target_position = Vector2(9, 0)
+collide_with_areas = true
+
+[connection signal="area_entered" from="." to="." method="_on_area_entered"]

@@ -1,4 +1,4 @@
-class_name World0 extends Node2D
+class_name Level extends Node2D
 
 @onready var player := $Player
 @onready var player_rt : RemoteTransform2D = $Player/RemoteTransform2D
@@ -9,8 +9,11 @@ class_name World0 extends Node2D
 @onready var anim := $AnimationPlayer
 @onready var gui : GUI = $GUI
 @onready var camera : Camera2D = $Camera2D
+@onready var tilemap : TileMap = $TileMap
 
 @export var player_default_position : Vector2
+
+var bridge_positions : Array[Vector2]
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
@@ -20,8 +23,10 @@ func _ready():
 		player.position = AM.player0_pos
 	else:
 		player.position = player_default_position
-	set_camera_limits()
 	AM.crown_scene = name
+	if AM.awaiting_bridge:
+		make_bridge()
+	set_camera_limits()
 	play_zoom_out()
 	player.connect("died", descend_layer)
 
@@ -48,7 +53,13 @@ func play_zoom_out():
 func descend_layer():
 	get_tree().paused = true
 	AM.player0_pos = player.global_position
-	AM.descend_layer()
+	await play_zoom_in().animation_finished
+	get_tree().change_scene_to_file("res://Scenes/" + AM.ring_scene + ".tscn")
+
+func descend_layer2(v : Vector2i, p: Vector2):
+	get_tree().paused = true
+	AM.player0_pos = player.global_position
+	AM.descend_layer2(v.x, v.y, p)
 	await play_zoom_in().animation_finished
 	get_tree().change_scene_to_file("res://Scenes/" + AM.ring_scene + ".tscn")
 
@@ -57,10 +68,18 @@ func ascend_layer():
 	AM.ascend_layer()
 
 func set_camera_limits(disable : bool = false):
-	camera.limit_right = 1000000 if disable else int(limit_br.position.x) 
-	camera.limit_bottom = 1000000 if disable else int(limit_br.position.y) 
+	camera.limit_right = 1000000 if disable else int(limit_br.position.x)
+	camera.limit_bottom = 1000000 if disable else int(limit_br.position.y)
 	camera.limit_top = -1000000 if disable else int(limit_tl.position.y) 
 	camera.limit_left = -1000000 if disable else int(limit_tl.position.x)
 	camera.drag_horizontal_enabled = !disable
 	camera.drag_vertical_enabled = !disable
 	camera.position_smoothing_enabled = !disable
+	pass
+
+func make_bridge():
+	AM.awaiting_bridge = false
+	AM.active_bridge_num += 1
+	for v in AM.active_bridge_struct.bridge_vectors:
+		tilemap.set_cell(2, AM.active_bridge_struct.position/18 + v, 0, Vector2i(2, 1))
+		print(v)

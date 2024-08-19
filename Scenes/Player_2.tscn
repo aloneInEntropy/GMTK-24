@@ -4,7 +4,7 @@
 [ext_resource type="Script" path="res://Scripts/Player_2.gd" id="1_nbtql"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_4lvyh"]
-size = Vector2(18, 18)
+size = Vector2(17, 17)
 
 [node name="Player2" type="Area2D"]
 script = ExtResource("1_nbtql")
@@ -16,6 +16,23 @@ shape = SubResource("RectangleShape2D_4lvyh")
 texture = ExtResource("1_15t6u")
 
 [node name="ObCheck" type="RayCast2D" parent="."]
+target_position = Vector2(0, 18)
 collision_mask = 12
+
+[node name="StickCheckU" type="RayCast2D" parent="."]
+target_position = Vector2(0, -9)
+collide_with_areas = true
+
+[node name="StickCheckD" type="RayCast2D" parent="."]
+target_position = Vector2(0, 9)
+collide_with_areas = true
+
+[node name="StickCheckL" type="RayCast2D" parent="."]
+target_position = Vector2(-9, 0)
+collide_with_areas = true
+
+[node name="StickCheckR" type="RayCast2D" parent="."]
+target_position = Vector2(9, 0)
+collide_with_areas = true
 
 [connection signal="area_entered" from="." to="." method="_on_area_entered"]

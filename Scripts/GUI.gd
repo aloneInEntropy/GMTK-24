@@ -1,6 +1,7 @@
 class_name GUI extends CanvasLayer
 
-@onready var lbl := $PlayerBullets
+@onready var lbl_a := $PlayerBullets
+@onready var lbl_b := $PlayerHealth
 @onready var transition : Transition = $CircleTransition
 
 func transition_into():

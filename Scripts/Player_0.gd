@@ -1,6 +1,6 @@
 class_name Player0 extends CharacterBody2D
 
-@onready var world: World0 = get_parent()
+@onready var world := get_parent()
 @onready var facing_ray := $FacingDir
 @onready var opp_facing_ray := $OppFacingDir
 @onready var floor_detector_l := $FloorDetectorL
@@ -13,8 +13,8 @@ class_name Player0 extends CharacterBody2D
 @onready var anim_player := $AnimationPlayer
 @onready var hitmark_sprite := $Hitmark
 
-@export var DEFAULT_FACING_DIRECTION := Vector2(27, 0)
-@export var DEFAULT_OPP_FACING_DIRECTION := Vector2(-27, 0)
+@export var DEFAULT_FACING_DIRECTION := Vector2(17, 0)
+@export var DEFAULT_OPP_FACING_DIRECTION := Vector2(-17, 0)
 @export var DEFAULT_GUN_FACING_DIRECTION := Vector2(3000, 0)
 @export var JUMP_CUTOFF := 0.5 ## speed to slow down jump height after player releases jump button. used for variable jump height
 
@@ -83,7 +83,7 @@ var _can_stand := true
 ## node the hitmark was locked onto
 var _hitmark_lock: Node2D
 ## maximum health the player can have
-var _max_health := 3
+var _max_health := 1
 # Get the _gravity from the project settings to be synced with RigidBody nodes.
 var _gravity = ProjectSettings.get_setting("physics/2d/default_gravity")
 
@@ -108,6 +108,7 @@ func _process(_delta):
 				if hit_item.is_queued_for_deletion():
 					# enemy just died
 					bullet_count += 1
+					AM.block_count += 3
 					_hitmark_lock = null
 			elif hit_item is Bullet:
 				# play bullet hit sound
@@ -117,6 +118,8 @@ func _process(_delta):
 				pass
 	if Input.is_action_just_pressed("use") and can_interact:
 		if interactable is Door:
+			interactable.use()
+		if interactable is Terminal:
 			interactable.use()
 	if anim_player.is_playing():
 		if _hitmark_lock:
@@ -250,8 +253,6 @@ func _physics_process(delta):
 			if can_climb_wall and direction == facing_ray.target_position.normalized().x and velocity.y >= 0:
 				# if moving into a wall
 				velocity.y = WALL_SLIDE_VELOCITY
-				# anim_sprite.play("climb")
-				# anim_sprite.offset = Vector2(7 * _last_direction.normalized().x, 0)
 			else:
 				# Add the _gravity.
 				velocity.y += _gravity * delta
