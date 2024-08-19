@@ -60,6 +60,10 @@
                         - [x] Metallic floor
                         - [x] Transparent windows
                         - [x] Doors
+                        - [ ] Indicator blocks
+                            - [ ] CROWN
+                            - [ ] GEM
+                        - [ ] Terminal
                     - [x] Foreground tiles (OPTIONAL)
                         - [x] Wooden boxes
             - [ ] Lighting
@@ -88,6 +92,7 @@
     - [ ] Time limit
         - [ ] Auto-accepting
     - [ ] Camera into CROWN (OPTIONAL)
+    - [ ] Allow auto-movement
 - [ ] UI
     - [ ] Font
     - [ ] Main menu
