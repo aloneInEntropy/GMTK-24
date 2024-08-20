@@ -8,6 +8,7 @@ class_name Enemy extends CharacterBody2D
 @onready var shoot_timer : Timer = $ShootTimer
 @onready var move_timer : Timer = $MovementTimer
 @onready var anim_sprite : AnimatedSprite2D = $AnimatedSprite2D
+@onready var rng := RandomNumberGenerator.new()
 
 const SPEED = 900.0
 const ATTACK_SPEED = 6000.0
@@ -17,11 +18,12 @@ const DEFAULT_PLAYER_CHECK_DIRECTION := Vector2(400, 0)
 # Get the gravity from the project settings to be synced with RigidBody nodes.
 var gravity = ProjectSettings.get_setting("physics/2d/default_gravity")
 var health : int = 3
-var direction : int = _rand_dir()
+var direction : int
 var is_aggro : bool
 var player_direction_ray : RayCast2D
 
 func _ready():
+	direction = _rand_dir()
 	shoot_timer.start()
 	move_timer.start()
 	anim_sprite.play("idle")
@@ -86,5 +88,5 @@ func _on_movement_timer_timeout():
 		direction = _rand_dir()
 
 func _rand_dir() -> int:
-	var rand = randi_range(0, 1)
+	var rand = rng.randi_range(0, 1)
 	return 1 if rand == 0 else -1

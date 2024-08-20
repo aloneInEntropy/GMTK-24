@@ -42,17 +42,17 @@
         - [ ] Player hit
         - [ ] Wall hit (OPTIONAL)
     - [ ] Rooms
-        - [ ] 1
-        - [ ] 2
+        - [x] 1
+        - [x] 2
         - [ ] 3
-        - [ ] 4
-        - [ ] 5
+        - [x] 4
+        - [x] 5
         - [ ] Final Room
     - [ ] Art and animations
         - [ ] Environment
             - [x] Backgrounds
                 - [ ] Parallax (OPTIONAL)
-            - [ ] Tileset
+            - [x] Tileset
                 - [x] Custom tileset (18x18)
                     - [x] Background tiles
                         - [x] Wooden plank walls
@@ -60,10 +60,10 @@
                         - [x] Metallic floor
                         - [x] Transparent windows
                         - [x] Doors
-                        - [ ] Indicator blocks
-                            - [ ] CROWN
-                            - [ ] GEM
-                        - [ ] Terminal
+                        - [x] Indicator blocks
+                            - [x] CROWN
+                            - [x] GEM
+                        - [x] Terminal
                     - [x] Foreground tiles (OPTIONAL)
                         - [x] Wooden boxes
             - [ ] Lighting
@@ -95,8 +95,17 @@
     - [x] Allow auto-movement
 - [ ] UI
     - [ ] Font
-    - [ ] Main menu
+    - [x] Main menu
     - [ ] Pause menu
-    - [ ] Game UI
-        - [ ] CROWN
-        - [ ] GEM
+    - [x] Game UI
+        - [x] CROWN
+        - [x] GEM
+
+- BUGS
+    - [ ] SEVERE
+        - [ ] Bridges from previous levels mapping to those in future levels
+    - [ ] MODERATE
+        - [ ] Occasionally, the blocks widths in GEM don't update correctly. This leads some of them to move past the surrounding wall.
+    - [ ] LIGHT
+        - [ ] Wall jumping only works if the wall is in the centre of the player character, which is annoying
+        - [x]  Sprite is updating when climbing and looking away from the wall

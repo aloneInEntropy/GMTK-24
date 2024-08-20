@@ -1,42 +1,14 @@
-[gd_scene load_steps=10 format=3 uid="uid://b0x1hf0cxved5"]
+[gd_scene load_steps=6 format=3 uid="uid://b0x1hf0cxved5"]
 
 [ext_resource type="Script" path="res://Scripts/Enemy.gd" id="1_28syk"]
 [ext_resource type="Texture2D" uid="uid://cwow1skf4c7tc" path="res://quad_128.png" id="2_80cto"]
-[ext_resource type="Texture2D" uid="uid://cbeb1p1eeq58" path="res://Assets/Sprites/Pixel Platformer/Tiles/Characters/tile_0004.png" id="3_8rk5d"]
-[ext_resource type="Texture2D" uid="uid://bjecrkvysdgoo" path="res://Assets/Sprites/Pixel Platformer/Tiles/Characters/tile_0004_angry.png" id="3_ll63j"]
-[ext_resource type="Texture2D" uid="uid://r60eurcca7wk" path="res://Assets/Sprites/Pixel Platformer/Tiles/Characters/tile_0005_angry.png" id="4_kb5mc"]
-[ext_resource type="Texture2D" uid="uid://dpmwpekoqrfbj" path="res://Assets/Sprites/Pixel Platformer/Tiles/Characters/tile_0005.png" id="4_qihjf"]
+[ext_resource type="SpriteFrames" uid="uid://es51cjwm1jtw" path="res://Assets/Sprites/Player/Enemy_anims.tres" id="3_h62i6"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_gnlaj"]
 size = Vector2(32, 32)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_lh6el"]
 size = Vector2(24, 29)
-
-[sub_resource type="SpriteFrames" id="SpriteFrames_0k52a"]
-animations = [{
-"frames": [{
-"duration": 1.0,
-"texture": ExtResource("3_ll63j")
-}, {
-"duration": 1.0,
-"texture": ExtResource("4_kb5mc")
-}],
-"loop": true,
-"name": &"aggro",
-"speed": 5.0
-}, {
-"frames": [{
-"duration": 1.0,
-"texture": ExtResource("3_8rk5d")
-}, {
-"duration": 1.0,
-"texture": ExtResource("4_qihjf")
-}],
-"loop": true,
-"name": &"idle",
-"speed": 5.0
-}]
 
 [node name="Enemy" type="CharacterBody2D"]
 process_mode = 1
@@ -87,9 +59,9 @@ collision_mask = 13
 wait_time = 3.0
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
-sprite_frames = SubResource("SpriteFrames_0k52a")
-animation = &"aggro"
-frame_progress = 0.7682
+sprite_frames = ExtResource("3_h62i6")
+animation = &"idle"
+frame_progress = 0.401745
 
 [connection signal="area_entered" from="EnemyHitbox" to="." method="_on_hitbox_area_entered"]
 [connection signal="area_exited" from="EnemyHitbox" to="." method="_on_hitbox_area_exited"]

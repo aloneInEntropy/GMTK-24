@@ -1,4 +1,4 @@
-[gd_scene load_steps=11 format=3 uid="uid://b10u4gvqy8rcj"]
+[gd_scene load_steps=12 format=3 uid="uid://b10u4gvqy8rcj"]
 
 [ext_resource type="Script" path="res://Scripts/Player_0.gd" id="1_ly33f"]
 [ext_resource type="SpriteFrames" uid="uid://cscemie4077pa" path="res://Assets/Sprites/Player/Player_anims.tres" id="3_tdkr0"]
@@ -8,6 +8,9 @@
 size = Vector2(16, 32)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_lh6el"]
+size = Vector2(24, 29)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_iqg1m"]
 size = Vector2(24, 29)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_j13fu"]
@@ -168,17 +171,23 @@ collision_mask = 14
 
 [node name="BulletCheck" type="RayCast2D" parent="."]
 position = Vector2(0, 3)
-target_position = Vector2(3000, 0)
+target_position = Vector2(400, 0)
 collision_mask = 46
 collide_with_areas = true
 
 [node name="Hitbox" type="Area2D" parent="."]
-visible = false
 collision_mask = 32
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Hitbox"]
 position = Vector2(0, 1.5)
 shape = SubResource("RectangleShape2D_lh6el")
+
+[node name="DeathBox" type="Area2D" parent="."]
+collision_mask = 64
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="DeathBox"]
+position = Vector2(0, 1.5)
+shape = SubResource("RectangleShape2D_iqg1m")
 
 [node name="Interactbox" type="Area2D" parent="."]
 visible = false
@@ -213,6 +222,7 @@ texture = ExtResource("17_555sg")
 
 [connection signal="area_entered" from="Hitbox" to="." method="_on_hitbox_area_entered"]
 [connection signal="area_exited" from="Hitbox" to="." method="_on_hitbox_area_exited"]
+[connection signal="area_entered" from="DeathBox" to="." method="_on_death_box_area_entered"]
 [connection signal="area_entered" from="Interactbox" to="." method="_on_interactbox_area_entered"]
 [connection signal="area_exited" from="Interactbox" to="." method="_on_interactbox_area_exited"]
 [connection signal="body_entered" from="Headbox" to="." method="_on_headbox_body_entered"]

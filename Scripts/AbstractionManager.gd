@@ -15,7 +15,7 @@ var gem_scene: String
 var ring_scene := "RING_World"
 var player2: Player2
 
-var block_count: int = 20
+var block_count: int = 0
 var active_bridge_struct: BridgeStruct
 var active_bridge_num: int
 var awaiting_bridge: bool
@@ -29,47 +29,18 @@ var lvl_terminals : Dictionary = {
 	"level_3": null,
 	"level_4": null,
 	"level_5": null,
-	"level_final": null,
 	"level_test": null,
 }
 
-func descend_layer():
-	match abs_layer:
-		AL.CROWN:
-			abs_layer = AL.RING
-		# AL.GEM:
-		# 	AM.abs_layer = AL.RING
-		# AL.RING:
-		# 	print("ERROR: CANNOT DESCEND FURTHER")
-		_:
-			print("ERROR: INVALID LAYER")
-
-func descend_layer2(w: int, h: int, pos: Vector2):
+func descend_layer(w: int, h: int, pos: Vector2):
 	if terminals.has(active_terminal):
 		active_bridge_struct = terminals[active_terminal]
 	else:
 		active_bridge_struct = BridgeStruct.new(w, h, pos)
 	AM.awaiting_bridge = true
-	match abs_layer:
-		AL.CROWN:
-			abs_layer = AL.RING
-		# AL.GEM:
-		# 	AM.abs_layer = AL.RING
-		# AL.RING:
-		# 	print("ERROR: CANNOT DESCEND FURTHER")
-		_:
-			print("ERROR: INVALID LAYER")
 
 func ascend_layer():
-	match abs_layer:
-		AL.RING:
-			abs_layer = AL.CROWN
-		# AL.GEM:
-		# 	abs_layer = AL.CROWN
-		# AL.CROWN:
-		# 	print("ERROR: CANNOT ASCEND FURTHER")
-		_:
-			print("ERROR: INVALID LAYER")
+	GM.load_reason = GM.LOAD_REASON.AT_TERMINAL
 
 func reset_active_terminal(returned_tiles_count : int):
 	print(returned_tiles_count)

@@ -21,9 +21,6 @@ _data = {
 script = ExtResource("1_3y0h1")
 
 [node name="Player2" parent="." instance=ExtResource("1_2cjvs")]
-DEFAULT_FACING_DIRECTION = Vector2(27, 0)
-DEFAULT_OPP_FACING_DIRECTION = Vector2(-27, 0)
-TILE_SIZE = 18
 
 [node name="RemoteTransform2D" type="RemoteTransform2D" parent="Player2"]
 remote_path = NodePath("../PlayerFollows")

@@ -6,7 +6,7 @@ class_name World2 extends Node2D
 @onready var camera : Camera2D = $Camera2D
 @onready var stickies := $Stickies
 @onready var tilemap := $TileMap
-# @onready var player_follows := $PlayerFollows
+@onready var rng := RandomNumberGenerator.new()
 
 var bridge : BridgeStruct
 var orig_block_count := AM.block_count
@@ -16,9 +16,10 @@ var TILE_SIZE := 18
 
 func _ready():
 	gui.visible = true
+	gui.gem_tooltip.visible = true
+	gui.gc.visible = false
 	get_tree().paused = false
 	play_zoom_out()
-	player.connect("died", descend_layer)
 	bridge = AM.active_bridge_struct
 	SB.bridge_submitted.connect(handle_bridge_submitted)
 	SB.bridge_reset.connect(handle_bridge_reset)
@@ -44,15 +45,11 @@ func generate_random_stickies():
 	var max_repetition := 10000
 	var max_repetition_i := 0
 	while i < sz_l:
-		var p := Vector2(randi_range(-13, -3), randi_range(-7, 6)) * TILE_SIZE
+		var p := Vector2(rng.randi_range(-13, -3), rng.randi_range(-7, 6)) * TILE_SIZE
 		var nots = generate_surrounding(p, TILE_SIZE)
 		var flag = rand_pos.any(func(x):
 			return nots.has(x)
 		)
-		print(rand_pos)
-		print(p)
-		print(nots)
-		print(flag)
 
 		if !flag:
 			rand_pos.append(p)
@@ -68,7 +65,7 @@ func generate_random_stickies():
 	i = 0
 	max_repetition_i = 0
 	while i < sz_r:
-		var p := Vector2(randi_range(3, 13), randi_range(-7, 6)) * TILE_SIZE
+		var p := Vector2(rng.randi_range(3, 13), rng.randi_range(-7, 6)) * TILE_SIZE
 		var nots = generate_surrounding(p, TILE_SIZE)
 		var flag = rand_pos.any(func(x):
 			return nots.has(x)
@@ -97,10 +94,6 @@ func generate_surrounding(p : Vector2, d: int = 1) -> Array:
 		p
 	]
 
-# Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(delta):
-	pass
-
 func play_zoom_in():
 	anim.play("zoom_in_player")
 	return gui.transition_into()
@@ -108,12 +101,6 @@ func play_zoom_in():
 func play_zoom_out():
 	anim.play("zoom_out_player")
 	return gui.transition_out()
-
-func descend_layer():
-	get_tree().paused = true
-	AM.descend_layer()
-	await play_zoom_in().animation_finished
-	get_tree().change_scene_to_file("res://Scenes/" + AM.ring_scene + ".tscn")
 
 func ascend_layer():
 	AM.terminals[AM.active_terminal] = AM.active_bridge_struct

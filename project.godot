@@ -12,8 +12,9 @@ config_version=5
 
 config/name="GMTK-24"
 config/tags=PackedStringArray("game_jam", "has_git_repo")
+run/main_scene="res://Scenes/main.tscn"
 config/features=PackedStringArray("4.2", "GL Compatibility")
-config/icon="res://icon.svg"
+config/icon="res://Assets/Sprites/Custom/PlayerBlock.png"
 
 [autoload]
 
@@ -88,3 +89,4 @@ reset={
 textures/canvas_textures/default_texture_filter=0
 renderer/rendering_method="gl_compatibility"
 renderer/rendering_method.mobile="gl_compatibility"
+environment/defaults/default_clear_color=Color(0, 0, 0, 1)

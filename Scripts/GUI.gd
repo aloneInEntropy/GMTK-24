@@ -1,8 +1,11 @@
 class_name GUI extends CanvasLayer
 
-@onready var lbl_a := $PlayerBullets
-@onready var lbl_b := $PlayerHealth
+@onready var gc := $GridContainer
+@onready var bullets_lbl := $GridContainer/PlayerBullets
+@onready var health_lbl := $GridContainer/PlayerHealth
+@onready var blocks_lbl := $GridContainer/PlayerBlocks
 @onready var transition : Transition = $CircleTransition
+@onready var gem_tooltip := $GEMTooltip
 
 func transition_into():
 	return transition.play_circle_in()

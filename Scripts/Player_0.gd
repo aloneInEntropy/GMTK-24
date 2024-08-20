@@ -83,7 +83,7 @@ var _can_stand := true
 ## node the hitmark was locked onto
 var _hitmark_lock: Node2D
 ## maximum health the player can have
-var _max_health := 1
+var _max_health := 5
 # Get the _gravity from the project settings to be synced with RigidBody nodes.
 var _gravity = ProjectSettings.get_setting("physics/2d/default_gravity")
 
@@ -213,7 +213,7 @@ func _physics_process(delta):
 			anim_sprite.stop()
 
 	# Handle jump.
-	if Input.is_action_just_pressed("jump"):
+	if Input.is_action_just_pressed("jump") and _can_stand:
 		anim_sprite.play("jump")
 		if can_floor_jump:
 			if is_crouching:
@@ -280,17 +280,20 @@ func check_death():
 		died.emit()
 
 func _track_direction():
-	if _last_direction.x == -1:
-		anim_sprite.flip_h = true
-	elif _last_direction.x == 1:
-		anim_sprite.flip_h = false
+	if !is_climbing:
+		if _last_direction.x == -1:
+			anim_sprite.flip_h = true
+		elif _last_direction.x == 1:
+			anim_sprite.flip_h = false
 
 func _on_hitbox_area_entered(area: Area2D):
 	if area is Bullet:
 		area.queue_free()
 		health -= 1
 		check_death()
-
+	elif area.name == "DEATH":
+		health = 0
+		check_death()
 
 func _on_headbox_body_entered(body: Node2D):
 	if !(body is Player0) and is_crouching:
@@ -315,3 +318,8 @@ func _on_interactbox_area_exited(area: Area2D):
 	interactable = null
 	if area is Terminal:
 		SB.show_bridge.emit(false, area.bridge_position)
+
+
+func _on_death_box_area_entered(_area: Area2D):
+	health = 0	
+	check_death()

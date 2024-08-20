@@ -1,0 +1,31 @@
+[gd_resource type="SpriteFrames" load_steps=5 format=3 uid="uid://es51cjwm1jtw"]
+
+[ext_resource type="Texture2D" uid="uid://bjecrkvysdgoo" path="res://Assets/Sprites/Pixel Platformer/Tiles/Characters/tile_0004_angry.png" id="1_5yugw"]
+[ext_resource type="Texture2D" uid="uid://r60eurcca7wk" path="res://Assets/Sprites/Pixel Platformer/Tiles/Characters/tile_0005_angry.png" id="2_ya7ot"]
+[ext_resource type="Texture2D" uid="uid://cbeb1p1eeq58" path="res://Assets/Sprites/Pixel Platformer/Tiles/Characters/tile_0004.png" id="3_4xn48"]
+[ext_resource type="Texture2D" uid="uid://dpmwpekoqrfbj" path="res://Assets/Sprites/Pixel Platformer/Tiles/Characters/tile_0005.png" id="4_n7ofs"]
+
+[resource]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("1_5yugw")
+}, {
+"duration": 1.0,
+"texture": ExtResource("2_ya7ot")
+}],
+"loop": true,
+"name": &"aggro",
+"speed": 8.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("3_4xn48")
+}, {
+"duration": 1.0,
+"texture": ExtResource("4_n7ofs")
+}],
+"loop": true,
+"name": &"idle",
+"speed": 5.0
+}]

@@ -1,6 +1,19 @@
-[gd_scene load_steps=2 format=3 uid="uid://cs46wwvygkqhv"]
+[gd_scene load_steps=14 format=3 uid="uid://cs46wwvygkqhv"]
 
 [ext_resource type="Script" path="res://Scripts/Main.gd" id="1_rbncx"]
+[ext_resource type="Texture2D" uid="uid://be7sg6rrpbup8" path="res://Assets/Sprites/Custom/play_button_normal.png" id="2_n5vru"]
+[ext_resource type="Texture2D" uid="uid://dotu3d81ft26t" path="res://Assets/Sprites/Custom/play_button_pressed.png" id="3_qxybp"]
+[ext_resource type="Texture2D" uid="uid://cs6mc1rfqcskq" path="res://Assets/Sprites/Custom/TITLELetter1.png" id="3_s8bj1"]
+[ext_resource type="Texture2D" uid="uid://du4n566ex5vdx" path="res://Assets/Sprites/Custom/TITLELetter2.png" id="4_u24km"]
+[ext_resource type="Texture2D" uid="uid://cyysqplw07yf3" path="res://Assets/Sprites/Custom/TITLELetter3.png" id="5_r3qrb"]
+[ext_resource type="Texture2D" uid="uid://ma0piw42j3y1" path="res://Assets/Sprites/Custom/TITLELetter4.png" id="6_tg2sj"]
+[ext_resource type="Texture2D" uid="uid://dqecxqi412c2v" path="res://Assets/Sprites/Custom/TITLELetter5.png" id="7_d2aic"]
+[ext_resource type="Texture2D" uid="uid://dmr2e4x811sf6" path="res://Assets/Sprites/Custom/TITLELetter6.png" id="8_o5vjl"]
+[ext_resource type="SpriteFrames" uid="uid://es51cjwm1jtw" path="res://Assets/Sprites/Player/Enemy_anims.tres" id="10_mjptp"]
+[ext_resource type="SpriteFrames" uid="uid://cscemie4077pa" path="res://Assets/Sprites/Player/Player_anims.tres" id="11_nynln"]
+[ext_resource type="Texture2D" uid="uid://cwow1skf4c7tc" path="res://quad_128.png" id="12_wqtt7"]
+
+[sub_resource type="SystemFont" id="SystemFont_u11yq"]
 
 [node name="Main" type="Control"]
 layout_mode = 3
@@ -10,3 +23,133 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_rbncx")
+
+[node name="PlayButton" type="TextureButton" parent="."]
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -64.0
+offset_top = -113.0
+offset_right = 64.0
+offset_bottom = -49.0
+grow_horizontal = 2
+grow_vertical = 0
+texture_normal = ExtResource("2_n5vru")
+texture_pressed = ExtResource("3_qxybp")
+
+[node name="HBoxContainer" type="HBoxContainer" parent="."]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -421.0
+offset_top = -45.0
+offset_right = 421.0
+offset_bottom = 45.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="S" type="TextureRect" parent="HBoxContainer"]
+layout_mode = 2
+texture = ExtResource("3_s8bj1")
+
+[node name="T" type="TextureRect" parent="HBoxContainer"]
+layout_mode = 2
+texture = ExtResource("4_u24km")
+
+[node name="R" type="TextureRect" parent="HBoxContainer"]
+layout_mode = 2
+texture = ExtResource("5_r3qrb")
+
+[node name="U" type="TextureRect" parent="HBoxContainer"]
+layout_mode = 2
+texture = ExtResource("6_tg2sj")
+
+[node name="C" type="TextureRect" parent="HBoxContainer"]
+layout_mode = 2
+texture = ExtResource("7_d2aic")
+
+[node name="T2" type="TextureRect" parent="HBoxContainer"]
+layout_mode = 2
+texture = ExtResource("4_u24km")
+
+[node name="U2" type="TextureRect" parent="HBoxContainer"]
+layout_mode = 2
+texture = ExtResource("6_tg2sj")
+
+[node name="R2" type="TextureRect" parent="HBoxContainer"]
+layout_mode = 2
+texture = ExtResource("5_r3qrb")
+
+[node name="A" type="TextureRect" parent="HBoxContainer"]
+layout_mode = 2
+texture = ExtResource("8_o5vjl")
+
+[node name="PlayerSprite" type="AnimatedSprite2D" parent="."]
+position = Vector2(354, 207)
+scale = Vector2(4, 4)
+sprite_frames = ExtResource("11_nynln")
+animation = &"idle"
+
+[node name="EnemySprite" type="AnimatedSprite2D" parent="."]
+position = Vector2(846, 220)
+scale = Vector2(4, 4)
+sprite_frames = ExtResource("10_mjptp")
+animation = &"aggro"
+
+[node name="RichTextLabel2" type="RichTextLabel" parent="."]
+layout_mode = 0
+offset_left = 1041.0
+offset_top = 605.0
+offset_right = 1177.0
+offset_bottom = 649.0
+theme_override_colors/default_color = Color(0.52532, 0.3128, 0.92, 1)
+theme_override_fonts/normal_font = SubResource("SystemFont_u11yq")
+theme_override_font_sizes/normal_font_size = 12
+bbcode_enabled = true
+text = "GMTK 2024
+(c) aloneInEntropy"
+
+[node name="GuideBG" type="TextureRect" parent="."]
+visible = false
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -266.0
+offset_top = -191.0
+offset_right = 266.0
+offset_bottom = 191.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("12_wqtt7")
+
+[node name="RichTextLabel" type="RichTextLabel" parent="GuideBG"]
+layout_mode = 0
+offset_left = 11.0
+offset_top = 8.0
+offset_right = 523.0
+offset_bottom = 371.0
+theme_override_colors/default_color = Color(0, 0, 0, 1)
+theme_override_fonts/normal_font = SubResource("SystemFont_u11yq")
+theme_override_font_sizes/normal_font_size = 24
+bbcode_enabled = true
+text = "[center]Use ARROW KEYS to move.
+Use C or SPACEBAR to jump.
+Use Z to grab/climb.
+Use A to shoot.
+Use S to interact.
+Use DOWN or LEFT SHIFT to crouch.
+
+
+
+(Press PLAY to continue)"
+
+[connection signal="pressed" from="PlayButton" to="." method="_on_play_button_pressed"]
