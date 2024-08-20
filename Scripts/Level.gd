@@ -12,6 +12,9 @@ class_name Level extends Node2D
 @onready var tilemap : TileMap = $TileMap
 @onready var start_pos : Marker2D = $StartPos
 
+# Flag to avoid connecting to player death twice
+var has_died := false
+
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	gui.visible = true
@@ -102,16 +105,19 @@ func make_bridges():
 
 
 func handle_player_death():
-	GM.load_reason = GM.LOAD_REASON.DEATH
-	AM.block_count = 0
-	# Clear all bullets to avoid updating the null reference to the player
-	for i in range(bullets.get_children().size() - 1, -1, -1):
-		var b = bullets.get_children()[i]
-		bullets.remove_child(b)
-		b.queue_free()
-	get_tree().paused = true
-	await play_zoom_in().animation_finished
-	get_tree().reload_current_scene()
+	if !has_died:
+		has_died = true
+		GM.load_reason = GM.LOAD_REASON.DEATH
+		AM.block_count = 0
+		# Clear all bullets to avoid updating the null reference to the player
+		for i in range(bullets.get_children().size() - 1, -1, -1):
+			var b = bullets.get_children()[i]
+			bullets.remove_child(b)
+			b.queue_free()
+
+		get_tree().paused = true
+		await play_zoom_in().animation_finished
+		get_tree().reload_current_scene()
 
 func handle_show_bridge(_show: bool, cam_pos: Vector2):
 	player_rt.global_position = cam_pos if _show else player.position
