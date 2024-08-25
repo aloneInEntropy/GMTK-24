@@ -1,6 +1,6 @@
 class_name Door extends Area2D
 
-@export var destination : String = "wld"
+@export var destination: String = "wld"
 @onready var world := get_parent()
 
 

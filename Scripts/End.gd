@@ -1,6 +1,6 @@
 extends Control
 
-@onready var crown : AnimatedSprite2D = $AnimatedSprite2D
+@onready var crown: AnimatedSprite2D = $AnimatedSprite2D
 @onready var anim := $AnimationPlayer
 
 # Called when the node enters the scene tree for the first time.

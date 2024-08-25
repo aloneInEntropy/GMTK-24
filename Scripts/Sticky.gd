@@ -2,11 +2,11 @@ class_name Sticky extends Area2D
 
 @onready var world: World2 = get_parent().get_parent()
 @onready var player: Player2 = world.get_node("Player2")
-@onready var stick_check_l : RayCast2D = $StickCheckL
-@onready var stick_check_r : RayCast2D = $StickCheckR
-@onready var stick_check_u : RayCast2D = $StickCheckU
-@onready var stick_check_d : RayCast2D = $StickCheckD
-@onready var coll : CollisionShape2D = $CollisionShape2D
+@onready var stick_check_l: RayCast2D = $StickCheckL
+@onready var stick_check_r: RayCast2D = $StickCheckR
+@onready var stick_check_u: RayCast2D = $StickCheckU
+@onready var stick_check_d: RayCast2D = $StickCheckD
+@onready var coll: CollisionShape2D = $CollisionShape2D
 @export var TILE_SIZE := 18
 
 ## is this Sticky object attached to the player/another Sticky object?
@@ -15,7 +15,7 @@ var is_attached := false
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	position = position.snapped(Vector2.ONE * TILE_SIZE)
-	position += Vector2.ONE * TILE_SIZE/2
+	position += Vector2.ONE * TILE_SIZE / 2
 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
@@ -51,14 +51,9 @@ func _physics_process(_delta):
 
 func setup(pos: Vector2):
 	position = pos.snapped(Vector2.ONE * TILE_SIZE)
-	position += Vector2.ONE * TILE_SIZE/2
+	position += Vector2.ONE * TILE_SIZE / 2
 
 
 func p_reparent(wld: World2, plr: Player2):
 	world = wld
 	player = plr
-
-func _on_area_entered(area: Area2D):
-	if area.name == "Target":
-		# world.ascend_layer()
-		pass

@@ -2,13 +2,13 @@ class_name World2 extends Node2D
 
 @onready var player := $Player2
 @onready var anim := $AnimationPlayer
-@onready var gui : GUI = $GUI
-@onready var camera : Camera2D = $Camera2D
+@onready var gui: GUI = $GUI
+@onready var camera: Camera2D = $Camera2D
 @onready var stickies := $Stickies
 @onready var tilemap := $TileMap
 @onready var rng := RandomNumberGenerator.new()
 
-var bridge : BridgeStruct
+var bridge: BridgeStruct
 var orig_block_count := AM.block_count
 var BG_LAYER := 0
 var FG_LAYER := 1
@@ -26,21 +26,21 @@ func _ready():
 	generate_random_stickies()
 
 func generate_random_stickies():
-	var mid = Vector2i(AM.active_bridge_struct.width, AM.active_bridge_struct.height)/2
+	var mid = Vector2i(AM.active_bridge_struct.width, AM.active_bridge_struct.height) / 2
 	for w in range(AM.active_bridge_struct.width):
 		for h in range(AM.active_bridge_struct.height):
 			tilemap.set_cell(FG_LAYER, Vector2i(w, h) - mid, 0, Vector2i(3, 3))
 
 	for s in AM.active_bridge_struct.bridge_vectors:
-		var sticky : Sticky = GM.sticky_scene.instantiate()
+		var sticky: Sticky = GM.sticky_scene.instantiate()
 		player.add_child(sticky)
 		sticky.position = s * TILE_SIZE # set position AFTER adding to scene tree to keep position relative
 
-	var rand_pos : Array = AM.active_bridge_struct.bridge_vectors.duplicate()
+	var rand_pos: Array = AM.active_bridge_struct.bridge_vectors.duplicate()
 	rand_pos.append(Vector2.ZERO)
 	var i = 0
 	var sz = AM.block_count - AM.active_bridge_struct.bridge_vectors.size()
-	var sz_l = sz/2.0 as int
+	var sz_l = sz / 2.0 as int
 	var sz_r = sz - sz_l
 	var max_repetition := 10000
 	var max_repetition_i := 0
@@ -53,15 +53,16 @@ func generate_random_stickies():
 
 		if !flag:
 			rand_pos.append(p)
-			var sticky : Sticky = GM.sticky_scene.instantiate()
+			var sticky: Sticky = GM.sticky_scene.instantiate()
 			sticky.setup(p)
 			stickies.add_child(sticky)
 			i += 1
 		max_repetition_i += 1
 		if max_repetition_i >= max_repetition:
 			push_error("TOO MANY REPETITIONS!!!")
-
+			rng = RandomNumberGenerator.new()
 	print("GEN REPS L: " + str(max_repetition_i))
+
 	i = 0
 	max_repetition_i = 0
 	while i < sz_r:
@@ -72,25 +73,26 @@ func generate_random_stickies():
 		)
 		if !flag:
 			rand_pos.append(p)
-			var sticky : Sticky = GM.sticky_scene.instantiate()
+			var sticky: Sticky = GM.sticky_scene.instantiate()
 			sticky.setup(p)
 			stickies.add_child(sticky)
 			i += 1
 		max_repetition_i += 1
 		if max_repetition_i >= max_repetition:
 			push_error("TOO MANY REPETITIONS!!!")
+			rng = RandomNumberGenerator.new()
 	print("GEN REPS R: " + str(max_repetition_i))
 
-func generate_surrounding(p : Vector2, d: int = 1) -> Array:
+func generate_surrounding(p: Vector2, d: int = 1) -> Array:
 	return [
-		Vector2(p.x+d, p.y+d),
-		Vector2(p.x+d, p.y-d),
-		Vector2(p.x+d, p.y),
-		Vector2(p.x-d, p.y+d),
-		Vector2(p.x-d, p.y-d),
-		Vector2(p.x-d, p.y),
-		Vector2(p.x, p.y+d),
-		Vector2(p.x, p.y-d),
+		Vector2(p.x + d, p.y + d),
+		Vector2(p.x + d, p.y - d),
+		Vector2(p.x + d, p.y),
+		Vector2(p.x - d, p.y + d),
+		Vector2(p.x - d, p.y - d),
+		Vector2(p.x - d, p.y),
+		Vector2(p.x, p.y + d),
+		Vector2(p.x, p.y - d),
 		p
 	]
 
@@ -103,14 +105,12 @@ func play_zoom_out():
 	return gui.transition_out()
 
 func ascend_layer():
+	player.free()
 	AM.terminals[AM.active_terminal] = AM.active_bridge_struct
 	get_tree().paused = true
 	AM.ascend_layer()
 	await play_zoom_in().animation_finished
 	get_tree().change_scene_to_file("res://Scenes/" + AM.crown_scene + ".tscn")
-
-func handle_player_solved():
-	print("SOLVED")
 
 func handle_bridge_submitted(vs: PackedVector2Array):
 	AM.update_bridge(vs)

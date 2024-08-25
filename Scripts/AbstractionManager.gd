@@ -15,6 +15,9 @@ var gem_scene: String
 var ring_scene := "RING_World"
 var player2: Player2
 
+var descending := false
+var ascending := false
+
 var block_count: int = 0
 var active_bridge_struct: BridgeStruct
 var active_bridge_num: int
@@ -23,7 +26,7 @@ var active_terminal: String ## name of active terminal
 var terminals: Dictionary ## Dictionary[String, Bridge] of terminals
 
 ## Dictionary[String, Dictionary[String, Bridge]] of terminals in each level
-var lvl_terminals : Dictionary = {
+var lvl_terminals: Dictionary = {
 	"level_1": null,
 	"level_2": null,
 	"level_3": null,
@@ -38,11 +41,13 @@ func descend_layer(w: int, h: int, pos: Vector2):
 	else:
 		active_bridge_struct = BridgeStruct.new(w, h, pos)
 	AM.awaiting_bridge = true
+	descending = true
 
 func ascend_layer():
+	ascending = true
 	GM.load_reason = GM.LOAD_REASON.AT_TERMINAL
 
-func reset_active_terminal(returned_tiles_count : int):
+func reset_active_terminal(returned_tiles_count: int):
 	print(returned_tiles_count)
 	if active_bridge_struct.complete:
 		# only return count if the bridge was actually built

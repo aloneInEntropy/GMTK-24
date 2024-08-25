@@ -6,6 +6,7 @@ class_name Player0 extends CharacterBody2D
 @onready var floor_detector_l := $FloorDetectorL
 @onready var floor_detector_r := $FloorDetectorR
 @onready var bullet_check := $BulletCheck
+@onready var bullet_line: Line2D = $BulletLine
 @onready var hitbox := $Hitbox
 @onready var usebox := $Interactbox
 @onready var _coll_shape := $CollisionShape2D
@@ -15,7 +16,7 @@ class_name Player0 extends CharacterBody2D
 
 @export var DEFAULT_FACING_DIRECTION := Vector2(17, 0)
 @export var DEFAULT_OPP_FACING_DIRECTION := Vector2(-17, 0)
-@export var DEFAULT_GUN_FACING_DIRECTION := Vector2(3000, 0)
+@export var DEFAULT_GUN_FACING_DIRECTION := Vector2(400, 0)
 @export var JUMP_CUTOFF := 0.5 ## speed to slow down jump height after player releases jump button. used for variable jump height
 
 # ------------------ const variables ----------------- #
@@ -27,6 +28,7 @@ const CROUCH_JUMP_VELOCITY := -350.0
 const WALL_JUMP_VELOCITY := -400.0
 const WALL_SLIDE_VELOCITY := 100.0
 const COYOTE_TIME_FLOOR := 6 ## frames after leaving floor for which the player can still jump
+const LASER_SIGHT_LINE_DIST := 125.0
 
 # ----------------------- enums ---------------------- #
 ## jump types. 
@@ -55,7 +57,7 @@ var is_wall_sliding: bool
 var climbing_facing_direction: Vector2 ## the direction the player while climbing
 var jump_type: JUMP_TYPE
 var bullet_count: int = 10
-var health : int
+var health: int
 
 # ----------------- private variables ----------------- #
 ## value for which a frame timer will remain at when a timer is over.
@@ -100,9 +102,6 @@ func _process(_delta):
 		if bullet_check.is_colliding():
 			var hit_item = bullet_check.get_collider()
 			if hit_item is Enemy:
-				_hitmark_lock = hit_item
-				anim_player.play("target_hit")
-				anim_player.seek(0) # reset hitmark animation
 				# play enemy hit sound
 				hit_item.take_damage()
 				if hit_item.is_queued_for_deletion():
@@ -117,6 +116,8 @@ func _process(_delta):
 				# play wall hit sound
 				pass
 	if Input.is_action_just_pressed("use") and can_interact:
+		_disable_signals()
+		can_interact = false
 		if interactable is Door:
 			interactable.use()
 		if interactable is Terminal:
@@ -128,6 +129,20 @@ func _process(_delta):
 			hitmark_sprite.visible = false
 
 func _physics_process(delta):
+	if bullet_check.is_colliding() and (bullet_check.get_collider() is Enemy or bullet_check.get_collider() is Bullet):
+		_hitmark_lock = bullet_check.get_collider()
+		hitmark_sprite.visible = true
+		bullet_line.visible = true
+		bullet_line.points[-1] = \
+			_last_direction * LASER_SIGHT_LINE_DIST \
+			if (_last_direction * LASER_SIGHT_LINE_DIST).distance_squared_to(position) < (_hitmark_lock.position - position).distance_squared_to(position) \
+			else _hitmark_lock.position - position
+		hitmark_sprite.position = _hitmark_lock.position - position
+	else:
+		_hitmark_lock = null
+		hitmark_sprite.visible = false
+		bullet_line.visible = false
+
 	can_climb_wall = facing_ray.is_colliding()
 	can_wall_jump = is_climbing
 	can_floor_jump = is_grounded and !is_climbing
@@ -198,6 +213,7 @@ func _physics_process(delta):
 		facing_ray.target_position = _last_direction * DEFAULT_FACING_DIRECTION
 		opp_facing_ray.target_position = _last_direction * DEFAULT_FACING_DIRECTION * Vector2(-1, 0)
 		bullet_check.target_position = _last_direction * DEFAULT_GUN_FACING_DIRECTION
+		bullet_line.points[-1] = _last_direction * LASER_SIGHT_LINE_DIST
 		if !is_climbing:
 			velocity.x = move_toward(velocity.x, direction * spd, spd / 10)
 			anim_sprite.play("run")
@@ -276,6 +292,7 @@ func _input(event):
 
 func check_death():
 	if health <= 0:
+		can_interact = false
 		print("PLAYER DIED")
 		died.emit()
 
@@ -285,6 +302,9 @@ func _track_direction():
 			anim_sprite.flip_h = true
 		elif _last_direction.x == 1:
 			anim_sprite.flip_h = false
+
+func _disable_signals():
+	set_block_signals(true)
 
 func _on_hitbox_area_entered(area: Area2D):
 	if area is Bullet:
@@ -319,7 +339,6 @@ func _on_interactbox_area_exited(area: Area2D):
 	if area is Terminal:
 		SB.show_bridge.emit(false, area.bridge_position)
 
-
 func _on_death_box_area_entered(_area: Area2D):
-	health = 0	
+	health = 0
 	check_death()

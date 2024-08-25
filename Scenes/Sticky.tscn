@@ -30,5 +30,3 @@ collide_with_areas = true
 [node name="StickCheckR" type="RayCast2D" parent="."]
 target_position = Vector2(9, 0)
 collide_with_areas = true
-
-[connection signal="area_entered" from="." to="." method="_on_area_entered"]

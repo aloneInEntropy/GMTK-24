@@ -12,10 +12,10 @@ var p_anim_change_timer := 150
 var e_anim_change := 150
 var e_anim_change_timer := 150
 ## Frames before randomly picking a direction to point in
-var p_dir_change : int
-var p_dir_change_timer : int
-var e_dir_change : int
-var e_dir_change_timer : int
+var p_dir_change: int
+var p_dir_change_timer: int
+var e_dir_change: int
+var e_dir_change_timer: int
 
 var guide_shown = false
 

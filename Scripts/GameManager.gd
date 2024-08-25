@@ -16,14 +16,14 @@ var player_crown_scene := preload("res://Scenes/Player_0.tscn")
 ## Player (GEM) scene object
 var player_gem_scene := preload("res://Scenes/Player_2.tscn")
 ## Why was the level reloaded?
-var load_reason : LOAD_REASON
+var load_reason: LOAD_REASON
 
-var holding_level_enemies : bool
-var level_enemies : Array
+var holding_level_enemies: bool
+var level_enemies: Array
 
 
-func create_bullet(_direction : Vector2, _position : Vector2, _speed : float) -> Bullet:
-    var new_bullet : Bullet = _bullet_scene.instantiate()
+func create_bullet(_direction: Vector2, _position: Vector2, _speed: float) -> Bullet:
+    var new_bullet: Bullet = _bullet_scene.instantiate()
     new_bullet.setup(_direction, _position, _speed)
     return new_bullet
 

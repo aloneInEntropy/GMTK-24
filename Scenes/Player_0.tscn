@@ -1,4 +1,4 @@
-[gd_scene load_steps=12 format=3 uid="uid://b10u4gvqy8rcj"]
+[gd_scene load_steps=14 format=3 uid="uid://b10u4gvqy8rcj"]
 
 [ext_resource type="Script" path="res://Scripts/Player_0.gd" id="1_ly33f"]
 [ext_resource type="SpriteFrames" uid="uid://cscemie4077pa" path="res://Assets/Sprites/Player/Player_anims.tres" id="3_tdkr0"]
@@ -143,6 +143,13 @@ _data = {
 "target_hit": SubResource("Animation_4gtut")
 }
 
+[sub_resource type="Curve" id="Curve_2y7bf"]
+_data = [Vector2(0.250774, 0.320212), 0.0, 0.0, 0, 0, Vector2(0.96904, 0.0376029), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="Gradient" id="Gradient_lbop6"]
+colors = PackedColorArray(0.877346, 3.87453e-06, 1.2514e-06, 1, 1, 1, 1, 0)
+
 [node name="Player" type="CharacterBody2D"]
 process_mode = 1
 collision_mask = 15
@@ -170,6 +177,7 @@ target_position = Vector2(0, 4)
 collision_mask = 14
 
 [node name="BulletCheck" type="RayCast2D" parent="."]
+visible = false
 position = Vector2(0, 3)
 target_position = Vector2(400, 0)
 collision_mask = 46
@@ -218,7 +226,16 @@ libraries = {
 [node name="Hitmark" type="Sprite2D" parent="."]
 visible = false
 z_index = 3
+scale = Vector2(2, 2)
 texture = ExtResource("17_555sg")
+
+[node name="BulletLine" type="Line2D" parent="."]
+visible = false
+position = Vector2(0, 3)
+points = PackedVector2Array(0, 0, 400, 0)
+width = 5.25
+width_curve = SubResource("Curve_2y7bf")
+gradient = SubResource("Gradient_lbop6")
 
 [connection signal="area_entered" from="Hitbox" to="." method="_on_hitbox_area_entered"]
 [connection signal="area_exited" from="Hitbox" to="." method="_on_hitbox_area_exited"]

@@ -1,13 +1,13 @@
 class_name Enemy extends CharacterBody2D
 
 @onready var world := get_parent().get_parent()
-@onready var player_check : RayCast2D = $PlayerCheck
-@onready var opp_player_check : RayCast2D = $OppPlayerCheck
-@onready var floor_detector_l : RayCast2D= $FloorDetectorL
-@onready var floor_detector_r : RayCast2D= $FloorDetectorR
-@onready var shoot_timer : Timer = $ShootTimer
-@onready var move_timer : Timer = $MovementTimer
-@onready var anim_sprite : AnimatedSprite2D = $AnimatedSprite2D
+@onready var player_check: RayCast2D = $PlayerCheck
+@onready var opp_player_check: RayCast2D = $OppPlayerCheck
+@onready var floor_detector_l: RayCast2D = $FloorDetectorL
+@onready var floor_detector_r: RayCast2D = $FloorDetectorR
+@onready var shoot_timer: Timer = $ShootTimer
+@onready var move_timer: Timer = $MovementTimer
+@onready var anim_sprite: AnimatedSprite2D = $AnimatedSprite2D
 @onready var rng := RandomNumberGenerator.new()
 
 const SPEED = 900.0
@@ -17,10 +17,10 @@ const DEFAULT_PLAYER_CHECK_DIRECTION := Vector2(400, 0)
 
 # Get the gravity from the project settings to be synced with RigidBody nodes.
 var gravity = ProjectSettings.get_setting("physics/2d/default_gravity")
-var health : int = 3
-var direction : int
-var is_aggro : bool
-var player_direction_ray : RayCast2D
+var health: int = 3
+var direction: int
+var is_aggro: bool
+var player_direction_ray: RayCast2D
 
 func _ready():
 	direction = _rand_dir()
@@ -65,7 +65,7 @@ func _physics_process(delta):
 func shoot():
 	world.add_bullet(player_direction_ray.target_position.normalized(), position, BULLET_SPEED)
 
-func take_damage(dmg : int = 1):
+func take_damage(dmg: int = 1):
 	health -= dmg
 	print("{0} took damage! (Health = {1})".format([name, health]))
 	check_health()

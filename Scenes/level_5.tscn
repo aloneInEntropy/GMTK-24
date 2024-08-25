@@ -59,6 +59,7 @@ _data = {
 size = Vector2(2320, 114)
 
 [node name="level_5" type="Node2D"]
+process_mode = 1
 script = ExtResource("1_5ypw2")
 
 [node name="BG" type="Sprite2D" parent="."]

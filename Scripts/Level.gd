@@ -1,16 +1,16 @@
 class_name Level extends Node2D
 
 @onready var player := $Player
-@onready var player_rt : RemoteTransform2D = $Player/RemoteTransform2D
-@onready var limit_tl : Marker2D = $Limits/MarkerTL
-@onready var limit_br : Marker2D = $Limits/MarkerBR
+@onready var player_rt: RemoteTransform2D = $Player/RemoteTransform2D
+@onready var limit_tl: Marker2D = $Limits/MarkerTL
+@onready var limit_br: Marker2D = $Limits/MarkerBR
 @onready var enemies := $Enemies
 @onready var bullets := $Bullets
 @onready var anim := $AnimationPlayer
-@onready var gui : GUI = $GUI
-@onready var camera : Camera2D = $Camera2D
-@onready var tilemap : TileMap = $TileMap
-@onready var start_pos : Marker2D = $StartPos
+@onready var gui: GUI = $GUI
+@onready var camera: Camera2D = $Camera2D
+@onready var tilemap: TileMap = $TileMap
+@onready var start_pos: Marker2D = $StartPos
 
 # Flag to avoid connecting to player death twice
 var has_died := false
@@ -53,7 +53,7 @@ func _process(_delta):
 	gui.health_lbl.text = "[center]" + str(player.health)
 	gui.blocks_lbl.text = "[center]" + str(AM.block_count)
 	
-func add_bullet(_direction : Vector2, _position : Vector2, _speed : float):
+func add_bullet(_direction: Vector2, _position: Vector2, _speed: float):
 	var bullet := GM.create_bullet(_direction, _position, _speed)
 	bullets.add_child(bullet)
 
@@ -67,13 +67,13 @@ func play_zoom_out():
 	anim.play("zoom_out_player")
 	return gui.transition_out()
 
-func descend_layer(v : Vector2i, p: Vector2, t: Terminal):
-	GM.level_enemies = enemies.get_children().reduce(func(accum:Array, child:Node):
+func descend_layer(v: Vector2i, p: Vector2, t: Terminal):
+	get_tree().paused = true
+	GM.level_enemies = enemies.get_children().reduce(func(accum: Array, child: Node):
 		accum.push_back(child.position)
 		return accum, [])
 	GM.holding_level_enemies = true
-	AM.active_terminal = name + t.name
-	get_tree().paused = true
+	AM.active_terminal = name + "|" + t.name
 	AM.player0_pos = player.global_position
 	AM.descend_layer(v.x, v.y, p)
 	await play_zoom_in().animation_finished
@@ -83,10 +83,10 @@ func ascend_layer():
 	get_tree().paused = true
 	AM.ascend_layer()
 
-func set_camera_limits(disable : bool = false):
+func set_camera_limits(disable: bool = false):
 	camera.limit_right = 1000000 if disable else int(limit_br.position.x)
 	camera.limit_bottom = 1000000 if disable else int(limit_br.position.y)
-	camera.limit_top = -1000000 if disable else int(limit_tl.position.y) 
+	camera.limit_top = -1000000 if disable else int(limit_tl.position.y)
 	camera.limit_left = -1000000 if disable else int(limit_tl.position.x)
 	camera.drag_horizontal_enabled = !disable
 	camera.drag_vertical_enabled = !disable
@@ -96,28 +96,28 @@ func make_bridges():
 	AM.awaiting_bridge = false
 	if AM.lvl_terminals[name]:
 		var terminals = AM.lvl_terminals[name] as Dictionary
-		for t : String in terminals:
-			print(t.substr(7))
-			var term = get_node(t.substr(7)) as Terminal
+		for t: String in terminals:
+			var term = get_node(t.split("|")[-1]) as Terminal
 			var pos = term.bridge_position
 			for v in terminals[t].bridge_vectors:
-				tilemap.set_cell(2, pos/18 + Vector2i(v), 0, GM.PLAYER_BLOCK_TILE)
+				tilemap.set_cell(2, pos / 18 + Vector2i(v), 0, GM.PLAYER_BLOCK_TILE)
 
 
 func handle_player_death():
-	if !has_died:
-		has_died = true
-		GM.load_reason = GM.LOAD_REASON.DEATH
-		AM.block_count = 0
-		# Clear all bullets to avoid updating the null reference to the player
-		for i in range(bullets.get_children().size() - 1, -1, -1):
-			var b = bullets.get_children()[i]
-			bullets.remove_child(b)
-			b.queue_free()
+	if !AM.descending:
+		if !has_died:
+			has_died = !has_died
+			GM.load_reason = GM.LOAD_REASON.DEATH
+			AM.block_count = 0
+			# Clear all bullets to avoid updating the null reference to the player
+			for i in range(bullets.get_children().size() - 1, -1, -1):
+				var b = bullets.get_children()[i]
+				bullets.remove_child(b)
+				b.queue_free()
 
-		get_tree().paused = true
-		await play_zoom_in().animation_finished
-		get_tree().reload_current_scene()
+			get_tree().paused = true
+			await play_zoom_in().animation_finished
+			get_tree().reload_current_scene()
 
 func handle_show_bridge(_show: bool, cam_pos: Vector2):
 	player_rt.global_position = cam_pos if _show else player.position

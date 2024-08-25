@@ -102,8 +102,8 @@
         - [x] GEM
 
 - BUGS
-    - [ ] SEVERE
-        - [ ] Bridges from previous levels mapping to those in future levels
+    - [x] SEVERE
+        - [x] Bridges from previous levels mapping to those in future levels
     - [ ] MODERATE
         - [ ] Occasionally, the blocks widths in GEM don't update correctly. This leads some of them to move past the surrounding wall.
     - [ ] LIGHT
