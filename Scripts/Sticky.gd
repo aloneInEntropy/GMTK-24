@@ -53,7 +53,10 @@ func setup(pos: Vector2):
 	position = pos.snapped(Vector2.ONE * TILE_SIZE)
 	position += Vector2.ONE * TILE_SIZE / 2
 
-
 func p_reparent(wld: World2, plr: Player2):
 	world = wld
 	player = plr
+
+func handle_stuck():
+	
+	pass

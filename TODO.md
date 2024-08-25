@@ -13,7 +13,7 @@
             - [x] Grab wall from any height
             - [x] Differentiate between grounded jump and wall jump
             - [x] Differentiate between grabbed jump and non-grabbed jump
-        - [x] Shooting  
+        - [x] Shooting
             - [x] Hitscan shots
             - [x] Shooting enemy bullets
         - [x] Health

@@ -28,7 +28,7 @@ const CROUCH_JUMP_VELOCITY := -350.0
 const WALL_JUMP_VELOCITY := -400.0
 const WALL_SLIDE_VELOCITY := 100.0
 const COYOTE_TIME_FLOOR := 6 ## frames after leaving floor for which the player can still jump
-const LASER_SIGHT_LINE_DIST := 125.0
+const BULLET_LINE_DIST := 400.0
 
 # ----------------------- enums ---------------------- #
 ## jump types. 
@@ -58,6 +58,7 @@ var climbing_facing_direction: Vector2 ## the direction the player while climbin
 var jump_type: JUMP_TYPE
 var bullet_count: int = 10
 var health: int
+# var is_aiming : bool ## are the hitmark sprite and bullet line visible?
 
 # ----------------- private variables ----------------- #
 ## value for which a frame timer will remain at when a timer is over.
@@ -133,11 +134,8 @@ func _physics_process(delta):
 		_hitmark_lock = bullet_check.get_collider()
 		hitmark_sprite.visible = true
 		bullet_line.visible = true
-		bullet_line.points[-1] = \
-			_last_direction * LASER_SIGHT_LINE_DIST \
-			if (_last_direction * LASER_SIGHT_LINE_DIST).distance_squared_to(position) < (_hitmark_lock.position - position).distance_squared_to(position) \
-			else _hitmark_lock.position - position
 		hitmark_sprite.position = _hitmark_lock.position - position
+		bullet_line.points[-1] = Vector2(_last_direction.x * abs(hitmark_sprite.position.x), hitmark_sprite.position.y)
 	else:
 		_hitmark_lock = null
 		hitmark_sprite.visible = false
@@ -213,7 +211,6 @@ func _physics_process(delta):
 		facing_ray.target_position = _last_direction * DEFAULT_FACING_DIRECTION
 		opp_facing_ray.target_position = _last_direction * DEFAULT_FACING_DIRECTION * Vector2(-1, 0)
 		bullet_check.target_position = _last_direction * DEFAULT_GUN_FACING_DIRECTION
-		bullet_line.points[-1] = _last_direction * LASER_SIGHT_LINE_DIST
 		if !is_climbing:
 			velocity.x = move_toward(velocity.x, direction * spd, spd / 10)
 			anim_sprite.play("run")
