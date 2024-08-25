@@ -117,7 +117,6 @@ func _process(_delta):
 				# play wall hit sound
 				pass
 	if Input.is_action_just_pressed("use") and can_interact:
-		_disable_signals()
 		can_interact = false
 		if interactable is Door:
 			interactable.use()
@@ -299,9 +298,6 @@ func _track_direction():
 			anim_sprite.flip_h = true
 		elif _last_direction.x == 1:
 			anim_sprite.flip_h = false
-
-func _disable_signals():
-	set_block_signals(true)
 
 func _on_hitbox_area_entered(area: Area2D):
 	if area is Bullet:

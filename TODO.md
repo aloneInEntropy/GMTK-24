@@ -86,12 +86,22 @@
                 - [ ] Explosion animation (OPTIONAL)
 - [ ] GEM
     - A grid-based movement game. The player must move a tile to touch other "sticky" tiles. After a time limit, or when the player decides to return, the end structure will create a bridge in the main level.
-    - [x] Target
+    - [ ] Bridge
+        - [ ] Constraint
+            - Limiting bridge to being within the specified area in CROWN
+        - [ ] Origin
+            - Should the bridge be centred around the crosshair or the middle of the overall structure?
+                - If it's the former, should the bridge gap be filled in?
+            - [ ] Toggleable
     - [ ] Obstacles (OPTIONAL)
         - [ ] Moving tiles
     - [ ] Time limit
         - [ ] Auto-accepting (OPTIONAL)
     - [ ] Camera into CROWN (OPTIONAL)
+    - [ ] Boundary
+        - [x] Explicit boundary (current)
+        - [ ] Implicit boundary - invisible boundary
+        - [ ] Absentia boundary - no boundary; camera follows GEM
     - [x] Allow auto-movement
 - [ ] UI
     - [ ] Font

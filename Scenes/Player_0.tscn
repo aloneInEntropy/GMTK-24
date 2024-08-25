@@ -17,7 +17,7 @@ size = Vector2(24, 29)
 size = Vector2(70, 49)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_qmw8q"]
-size = Vector2(16, 24)
+size = Vector2(16, 16)
 
 [sub_resource type="Animation" id="Animation_nl8ww"]
 length = 0.001
@@ -206,11 +206,10 @@ position = Vector2(0, -8.5)
 shape = SubResource("RectangleShape2D_j13fu")
 
 [node name="Headbox" type="Area2D" parent="."]
-visible = false
 collision_mask = 12
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Headbox"]
-position = Vector2(0, -12)
+position = Vector2(0, -8)
 shape = SubResource("RectangleShape2D_qmw8q")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
