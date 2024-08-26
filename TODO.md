@@ -33,6 +33,10 @@
         - [x] Doors
         - [x] Multiple levels
         - [x] Terminals
+            - [ ] Rework terminal system
+                - Instead of each terminal having an internal BridgeStruct, each should point to a specific element in an array/dict of BridgeObjects. A BridgeObject can be a clickable Area2D that contains the guideline area and the BridgeStruct object. This would make free terminals (see below) feasible.
+        - [ ] Free terminals
+            - Can connect to any space
     - [ ] Pause menu
     - [ ] Sound effects
         - [ ] Player footsteps
