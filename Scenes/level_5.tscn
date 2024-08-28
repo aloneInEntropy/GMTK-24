@@ -10,6 +10,7 @@
 [ext_resource type="Animation" uid="uid://dteq76qrgir20" path="res://Scenes/zoom_out_player.res" id="8_uvenw"]
 [ext_resource type="PackedScene" uid="uid://bmr1wuaorpuic" path="res://Scenes/GUI.tscn" id="9_8a8oa"]
 [ext_resource type="PackedScene" uid="uid://dwmtfm8xlvnw2" path="res://Scenes/Terminal.tscn" id="10_rmiq5"]
+[ext_resource type="PackedScene" uid="uid://bnjp4xf2ubrof" path="res://Scenes/DeathArea.tscn" id="11_aftlj"]
 
 [sub_resource type="Animation" id="Animation_sdbmr"]
 length = 0.001
@@ -54,9 +55,6 @@ _data = {
 "zoom_in_player": ExtResource("7_1kwia"),
 "zoom_out_player": ExtResource("8_uvenw")
 }
-
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_vijg0"]
-size = Vector2(2320, 114)
 
 [node name="level_5" type="Node2D"]
 process_mode = 1
@@ -197,18 +195,16 @@ bridge_position = Vector2i(248, -199)
 
 [node name="Terminal4" parent="." instance=ExtResource("10_rmiq5")]
 position = Vector2(760, -100)
-bridge_size = Vector2i(3, 3)
+bridge_size = Vector2i(9, 3)
 bridge_position = Vector2i(735, 320)
 
 [node name="Marker2D" type="Marker2D" parent="."]
 position = Vector2(735, 320)
 
-[node name="DEATH" type="Area2D" parent="."]
-collision_layer = 64
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="DEATH"]
-position = Vector2(-39, 426)
-shape = SubResource("RectangleShape2D_vijg0")
-
 [node name="StartPos" type="Marker2D" parent="."]
-position = Vector2(-750, 307)
+position = Vector2(-678, 304)
+scale = Vector2(1.71631, 5.29489)
+
+[node name="DeathArea" parent="." instance=ExtResource("11_aftlj")]
+position = Vector2(80, 409)
+scale = Vector2(18.9224, 1.29816)

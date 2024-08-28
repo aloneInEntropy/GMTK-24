@@ -100,8 +100,7 @@ func make_bridges():
 			var term = get_node(t.split("|")[-1]) as Terminal
 			var pos = term.bridge_position
 			for v in terminals[t].bridge_vectors:
-				tilemap.set_cell(2, pos / 18 + Vector2i(v), 0, GM.PLAYER_BLOCK_TILE)
-
+				tilemap.set_cell(GM.TILEMAP_LAYER.WALL, pos / 18 + Vector2i(v), 0, GM.PLAYER_BLOCK_TILE)
 
 func handle_player_death():
 	if !AM.descending:

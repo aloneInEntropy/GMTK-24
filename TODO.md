@@ -3,6 +3,7 @@
     - [x] Player
         - [x] Movement
             - [x] Crouching
+                - [x] Allow crouch jumping
             - [x] Wall climbing
                 - [ ] Switch from raycasts to Area2Ds for conssistency (OPTIONAL)
             - [x] Grabbed wall jumping
@@ -22,8 +23,8 @@
         - [x] Movement
             - [x] Random movement
         - [x] Health
-        - [ ] Aggravation
-            - [ ] Remain aggro'd for a while after player is hidden (OPTIONAL)
+        - [x] Aggravation
+            - [x] Remain aggro'd for a while after player is hidden (OPTIONAL)
     - [ ] Interactables
         - [x] Abstraction layers
         - [ ] Item pickups (OPTIONAL)
@@ -99,6 +100,7 @@
             - [ ] Toggleable
     - [ ] Obstacles (OPTIONAL)
         - [ ] Moving tiles
+        - [ ] Block removal areas/enemies
     - [ ] Time limit
         - [ ] Auto-accepting (OPTIONAL)
     - [ ] Camera into CROWN (OPTIONAL)
@@ -120,6 +122,8 @@
         - [x] Bridges from previous levels mapping to those in future levels
     - [ ] MODERATE
         - [ ] Occasionally, the blocks widths in GEM don't update correctly. This leads some of them to move past the surrounding wall.
+            - FIX: todo
     - [ ] LIGHT
         - [ ] Wall jumping only works if the wall is in the centre of the player character, which is annoying
+            - FIX: see Player/Movement/Wall Climbing
         - [x]  Sprite is updating when climbing and looking away from the wall

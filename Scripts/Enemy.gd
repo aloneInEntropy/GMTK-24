@@ -7,6 +7,7 @@ class_name Enemy extends CharacterBody2D
 @onready var floor_detector_r: RayCast2D = $FloorDetectorR
 @onready var shoot_timer: Timer = $ShootTimer
 @onready var move_timer: Timer = $MovementTimer
+@onready var aggro_timer: Timer = $AggroTimer
 @onready var anim_sprite: AnimatedSprite2D = $AnimatedSprite2D
 @onready var rng := RandomNumberGenerator.new()
 
@@ -21,6 +22,7 @@ var health: int = 3
 var direction: int
 var is_aggro: bool
 var player_direction_ray: RayCast2D
+var _last_player_position : Vector2
 
 func _ready():
 	direction = _rand_dir()
@@ -38,18 +40,30 @@ func _process(_delta):
 func _physics_process(delta):
 	if player_check.is_colliding() and player_check.get_collider() is Player0:
 		player_direction_ray = player_check
+		var p = player_check.get_collider() as Player0
+		_last_player_position = Vector2(p.position.x, 0)
 		is_aggro = true
+		aggro_timer.start()
 	elif opp_player_check.is_colliding() and opp_player_check.get_collider() is Player0:
 		player_direction_ray = opp_player_check
+		var p = opp_player_check.get_collider() as Player0
+		_last_player_position = Vector2(p.position.x, 0)
 		is_aggro = true
-	else:
-		is_aggro = false
+		aggro_timer.start()
+	
+		
+	# print(player_check.is_colliding() and player_check.get_collider() is Player0)
+	# print(opp_player_check.is_colliding() and opp_player_check.get_collider() is Player0)
+	# print(aggro_timer.time_left)
 	if is_aggro:
 		anim_sprite.play("aggro")
-		if shoot_timer.is_stopped():
-			shoot_timer.start()
-		direction = int(player_direction_ray.target_position.normalized().x)
+		if player_direction_ray.is_colliding():
+			if shoot_timer.is_stopped():
+				shoot_timer.start()
+		direction = sign(_last_player_position.x - position.x)
 		velocity.x = direction * ATTACK_SPEED * delta
+		if int(position.x) == int(_last_player_position.x) or direction == 0:
+			is_aggro = false
 	else:
 		anim_sprite.play("idle")
 		player_check.target_position = direction * DEFAULT_PLAYER_CHECK_DIRECTION
@@ -78,6 +92,10 @@ func die():
 	print(name + " DIED")
 	queue_free()
 
+func _rand_dir() -> int:
+	var rand = rng.randi_range(0, 1)
+	return 1 if rand == 0 else -1
+
 
 func _on_shoot_timer_timeout():
 	if is_aggro:
@@ -87,6 +105,6 @@ func _on_movement_timer_timeout():
 	if !is_aggro:
 		direction = _rand_dir()
 
-func _rand_dir() -> int:
-	var rand = rng.randi_range(0, 1)
-	return 1 if rand == 0 else -1
+func _on_aggro_timer_timeout():
+	is_aggro = false
+	print("not angy")

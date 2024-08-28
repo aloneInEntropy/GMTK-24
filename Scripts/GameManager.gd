@@ -3,7 +3,11 @@ extends Node
 ## The reason the level was (re)loaded
 enum LOAD_REASON {DEATH, AT_TERMINAL}
 
+## TileMap layers for each level's TileMap
+enum TILEMAP_LAYER{FAR_BG, CLOSE_BG, WALL, FG_LAYER}
+
 var PLAYER_BLOCK_TILE := Vector2i(3, 0)
+var TILE_SIZE := 18
 
 ## Bullet scene object
 var _bullet_scene = preload("res://Scenes/Bullet.tscn")
@@ -31,5 +35,7 @@ func create_bullet(_direction: Vector2, _position: Vector2, _speed: float) -> Bu
 func go_to_level(s: SceneTree, nm: String):
     AM.block_count = 0
     AM.terminals = Dictionary()
-    load_reason = LOAD_REASON.DEATH
+    AM.ascending = false
+    AM.descending = false
+    load_reason = LOAD_REASON.DEATH # achieves the same thing as a level change
     s.change_scene_to_file("res://Scenes/" + nm + ".tscn")

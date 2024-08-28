@@ -58,6 +58,9 @@ collision_mask = 13
 [node name="MovementTimer" type="Timer" parent="."]
 wait_time = 3.0
 
+[node name="AggroTimer" type="Timer" parent="."]
+one_shot = true
+
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 sprite_frames = ExtResource("3_h62i6")
 animation = &"idle"
@@ -67,3 +70,4 @@ frame_progress = 0.401745
 [connection signal="area_exited" from="EnemyHitbox" to="." method="_on_hitbox_area_exited"]
 [connection signal="timeout" from="ShootTimer" to="." method="_on_shoot_timer_timeout"]
 [connection signal="timeout" from="MovementTimer" to="." method="_on_movement_timer_timeout"]
+[connection signal="timeout" from="AggroTimer" to="." method="_on_aggro_timer_timeout"]

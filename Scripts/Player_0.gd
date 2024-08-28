@@ -75,6 +75,9 @@ var _off_ledge: bool
 var _was_off_ledge: bool
 ## the direction the player was facing on the last input
 var _last_direction: Vector2
+# var _is_facing_colliding : bool
+# var _is_opp_facing_colliding : bool
+# var _tile_facing_dir : Vector2
 ## the type of the last valid jump the player made
 var _last_jump_type: JUMP_TYPE
 ## max frames until the player can regrab a wall
@@ -186,7 +189,7 @@ func _physics_process(delta):
 	if Input.is_action_just_released("grab"):
 		is_climbing = false
 
-	is_crouching = Input.is_action_pressed("crouch") and is_grounded and !is_climbing
+	is_crouching = Input.is_action_pressed("crouch") and !is_climbing and (is_grounded or (_last_jump_type == JUMP_TYPE.CROUCH and velocity.y < 0))
 	if is_crouching:
 		_coll_shape.shape.size = Vector2(16, 16)
 		_coll_shape.position = Vector2(0, 8)
@@ -196,13 +199,11 @@ func _physics_process(delta):
 			_coll_shape.position = Vector2(0, 0)
 		else:
 			is_crouching = true
-	if Input.is_action_just_released("crouch") and _can_stand:
+	if (Input.is_action_just_released("crouch") or !is_crouching) and _can_stand:
 		is_crouching = false
 		if anim_sprite.animation == "crouch_idle":
 			anim_sprite.stop()
 
-	# Get the input direction and handle the movement/deceleration.
-	# As good practice, you should replace UI actions with custom gameplay actions.
 	var spd := CROUCH_WALK_SPEED if is_crouching else WALK_SPEED
 	var direction := Input.get_axis("ui_left", "ui_right")
 	if direction:
@@ -212,9 +213,10 @@ func _physics_process(delta):
 		bullet_check.target_position = _last_direction * DEFAULT_GUN_FACING_DIRECTION
 		if !is_climbing:
 			velocity.x = move_toward(velocity.x, direction * spd, spd / 10)
-			anim_sprite.play("run")
-		if is_crouching:
-			anim_sprite.play("crouch")
+			if is_crouching:
+				anim_sprite.play("crouch")
+			else:
+				anim_sprite.play("run")
 	else:
 		velocity.x = move_toward(velocity.x, 0, spd / 10) # slowdown effect
 		if !is_climbing:
@@ -255,7 +257,7 @@ func _physics_process(delta):
 
 	# player slides down a wall if they are:
 		# off the ground
-		# not climbing the wall
+		# not crouching or climbing the wall
 		# close enough to climb the wall
 		# moving into the wall
 		# not moving or already moving down (to avoid interrupting a jump)
@@ -268,7 +270,8 @@ func _physics_process(delta):
 			else:
 				# Add the _gravity.
 				velocity.y += _gravity * delta
-				anim_sprite.play("jump")
+				if _can_stand: 
+					anim_sprite.play("jump")
 	else:
 		if anim_sprite.animation == "jump":
 			anim_sprite.stop()
@@ -279,6 +282,7 @@ func _physics_process(delta):
 	_was_off_ledge = _off_ledge
 	_frames_until_regrab = int(move_toward(_frames_until_regrab, _TIMER_MIN_RESET, 1))
 	_track_direction()
+	print(_can_stand)
 	move_and_slide()
 
 func _input(event):
@@ -304,18 +308,18 @@ func _on_hitbox_area_entered(area: Area2D):
 		area.queue_free()
 		health -= 1
 		check_death()
-	elif area.name == "DEATH":
-		health = 0
-		check_death()
+	else:
+		print(area.name)
 
 func _on_headbox_body_entered(body: Node2D):
-	if !(body is Player0) and is_crouching:
+	print(body.name)
+	if !(body is Player0):
 		_coll_shape.shape.size = Vector2(16, 16)
 		_coll_shape.position = Vector2(0, 8)
 		_can_stand = false
 
 func _on_headbox_body_exited(body: Node2D):
-	if !(body is Player0):
+	if !(body is Player0) and velocity.y >= 0:
 		_coll_shape.shape.size = Vector2(16, 32)
 		_coll_shape.position = Vector2(0, 0)
 		_can_stand = true
@@ -335,3 +339,38 @@ func _on_interactbox_area_exited(area: Area2D):
 func _on_death_box_area_entered(_area: Area2D):
 	health = 0
 	check_death()
+
+
+func _on_hitbox_body_entered(_body: Node2D):
+	# if _body is TileMap:
+	# 	var _dir = climbing_facing_direction if is_climbing else _last_direction
+	# 	var local_map_pos = _body.local_to_map(position) + Vector2i(_dir)
+	# 	var _facing_tile = _body.get_cell_source_id(GM.TILEMAP_LAYER.WALL, local_map_pos, true)
+	# 	_tile_facing_dir = (Vector2(local_map_pos.x*GM.TILE_SIZE, 0) - Vector2(position.x, 0)).normalized()
+	# 	_is_facing_colliding = !(_tile_facing_dir != _dir and _facing_tile == -1)
+	# 	_is_opp_facing_colliding = !(_tile_facing_dir == _dir and _facing_tile == -1)
+	# 	# print("local map pos: {0}\ntile id: {1}\n{2}\nwall facing dir: {3}\nopp wall facing dir: {4}".format([
+	# 	# 	local_map_pos,
+	# 	# 	_body.get_cell_source_id(GM.TILEMAP_LAYER.WALL, local_map_pos, true), 
+	# 	# 	"entering " + _body.name,
+	# 	# 	_tile_facing_dir,
+	# 	# 	_tile_facing_dir * -1
+	# 	# 	]))
+	pass
+
+func _on_hitbox_body_exited(_body: Node2D):
+	# if _body is TileMap:
+	# 	var _dir = climbing_facing_direction if is_climbing else _last_direction
+	# 	var local_map_pos = _body.local_to_map(position) + Vector2i(_dir)
+	# 	var _facing_tile = _body.get_cell_source_id(GM.TILEMAP_LAYER.WALL, local_map_pos, true)
+	# 	_tile_facing_dir = (Vector2(local_map_pos.x*GM.TILE_SIZE, 0) - Vector2(position.x, 0)).normalized()
+	# 	_is_facing_colliding = !(_tile_facing_dir != _dir and _facing_tile == -1)
+	# 	_is_opp_facing_colliding = !(_tile_facing_dir == _dir and _facing_tile == -1)
+	# 	print("local map pos: {0}\ntile id: {1}\n{2}\nwall facing dir: {3}\nopp wall facing dir: {4}\n".format([
+	# 		local_map_pos,
+	# 		_facing_tile, 
+	# 		"exiting " + _body.name,
+	# 		_tile_facing_dir,
+	# 		_tile_facing_dir * -1
+	# 		]))
+	pass

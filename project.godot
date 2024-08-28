@@ -83,7 +83,7 @@ pause={
 2d_physics/layer_4="floor_ngwall"
 2d_physics/layer_5="interact"
 2d_physics/layer_6="harm"
-2d_physics/layer_7="harm"
+2d_physics/layer_7="instakill"
 
 [physics]
 

@@ -105,7 +105,6 @@ func play_zoom_out():
 	return gui.transition_out()
 
 func ascend_layer():
-	player.free()
 	AM.terminals[AM.active_terminal] = AM.active_bridge_struct
 	get_tree().paused = true
 	AM.ascend_layer()

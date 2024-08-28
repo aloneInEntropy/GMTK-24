@@ -114,8 +114,8 @@ func _physics_process(_delta):
 
 func _input(event):
 	if event.is_action_pressed("submit"):
-		SB.bridge_submitted.emit(pos_array)
 		print(pos_array)
+		SB.bridge_submitted.emit(pos_array)
 	if event.is_action_pressed("reset"):
 		var sc := get_sticky_children().size()
 		for i in range(sc - 1, -1, -1):
