@@ -123,6 +123,7 @@
     - [ ] MODERATE
         - [ ] Occasionally, the blocks widths in GEM don't update correctly. This leads some of them to move past the surrounding wall.
             - FIX: todo
+        - [ ] New blocks don't appear when revisiting a submitted bridge 
     - [ ] LIGHT
         - [ ] Wall jumping only works if the wall is in the centre of the player character, which is annoying
             - FIX: see Player/Movement/Wall Climbing
