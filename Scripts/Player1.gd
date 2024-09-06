@@ -1,8 +1,6 @@
 class_name Player0 extends CharacterBody2D
 
 @onready var world := get_parent()
-@onready var facing_ray := $FacingDir
-@onready var opp_facing_ray := $OppFacingDir
 @onready var floor_detector_l := $FloorDetectorL
 @onready var floor_detector_r := $FloorDetectorR
 @onready var bullet_check := $BulletCheck
@@ -75,8 +73,10 @@ var _off_ledge: bool
 var _was_off_ledge: bool
 ## the direction the player was facing on the last input
 var _last_direction: Vector2
-# var _is_facing_colliding : bool
-# var _is_opp_facing_colliding : bool
+var _is_left_colliding: bool
+var _is_right_colliding: bool
+var _facing_dir : Vector2
+var _opp_facing_dir : Vector2
 # var _tile_facing_dir : Vector2
 ## the type of the last valid jump the player made
 var _last_jump_type: JUMP_TYPE
@@ -143,14 +143,24 @@ func _physics_process(delta):
 		hitmark_sprite.visible = false
 		bullet_line.visible = false
 
-	can_climb_wall = facing_ray.is_colliding()
+	var is_facing_colliding : bool
+	var is_opp_facing_colliding : bool
+	if _last_direction == Vector2.LEFT:
+		is_facing_colliding = _is_left_colliding
+		is_opp_facing_colliding = _is_right_colliding
+	else:
+		is_facing_colliding = _is_right_colliding
+		is_opp_facing_colliding = _is_left_colliding
+
+	can_climb_wall = is_facing_colliding
 	can_wall_jump = is_climbing
 	can_floor_jump = is_grounded and !is_climbing
 	is_grounded = floor_detector_l.is_colliding() or floor_detector_r.is_colliding()
-	can_ng_wall_jump = !is_grounded and !is_climbing and (facing_ray.is_colliding() or opp_facing_ray.is_colliding())
+	can_ng_wall_jump = !is_grounded and !is_climbing and (is_facing_colliding or is_opp_facing_colliding)
 	_off_ledge = floor_detector_l.is_colliding() != floor_detector_r.is_colliding() # only one is not colliding
 	_can_start_coyote = _was_off_ledge and !_off_ledge and !floor_detector_l.is_colliding()
-	# coyote timing logic. i refuse to use timers for menial shit like this
+	
+	# coyote timing logic
 	if _can_start_coyote or _coyote_started:
 		if _coyote_time_floor_timer == _TIMER_MIN_RESET:
 			can_floor_jump = false
@@ -180,9 +190,12 @@ func _physics_process(delta):
 		else:
 			velocity.y = move_toward(velocity.y, 0, CLIMB_SPEED) # slowdown effect
 			anim_sprite.play("climb_idle")
+	else:
+		if anim_sprite.animation == "climb" or "climb_idle":
+			anim_sprite.stop()
 
 	# hacky way to disable climbing when a wall runs out
-	if !facing_ray.is_colliding() and !opp_facing_ray.is_colliding() and (can_climb_wall or is_climbing):
+	if !is_facing_colliding and !is_opp_facing_colliding and (can_climb_wall or is_climbing):
 		is_climbing = false
 		can_climb_wall = false
 
@@ -191,12 +204,10 @@ func _physics_process(delta):
 
 	is_crouching = Input.is_action_pressed("crouch") and !is_climbing and (is_grounded or (_last_jump_type == JUMP_TYPE.CROUCH and velocity.y < 0))
 	if is_crouching:
-		_coll_shape.shape.size = Vector2(16, 16)
-		_coll_shape.position = Vector2(0, 8)
+		set_collision_shapes(true)
 	else:
 		if _can_stand:
-			_coll_shape.shape.size = Vector2(16, 32)
-			_coll_shape.position = Vector2(0, 0)
+			set_collision_shapes(false)
 		else:
 			is_crouching = true
 	if (Input.is_action_just_released("crouch") or !is_crouching) and _can_stand:
@@ -208,19 +219,24 @@ func _physics_process(delta):
 	var direction := Input.get_axis("ui_left", "ui_right")
 	if direction:
 		_last_direction = Vector2(direction, 0).normalized()
-		facing_ray.target_position = _last_direction * DEFAULT_FACING_DIRECTION
-		opp_facing_ray.target_position = _last_direction * DEFAULT_FACING_DIRECTION * Vector2(-1, 0)
+		_facing_dir = _last_direction
+		_opp_facing_dir	= _facing_dir * -1
 		bullet_check.target_position = _last_direction * DEFAULT_GUN_FACING_DIRECTION
 		if !is_climbing:
 			velocity.x = move_toward(velocity.x, direction * spd, spd / 10)
-			if is_crouching:
+			if is_crouching or _last_jump_type == JUMP_TYPE.CROUCH:
 				anim_sprite.play("crouch")
 			else:
 				anim_sprite.play("run")
 	else:
 		velocity.x = move_toward(velocity.x, 0, spd / 10) # slowdown effect
-		if !is_climbing:
-			facing_ray.target_position = _last_direction * DEFAULT_FACING_DIRECTION
+		if is_climbing:
+			_last_direction = climbing_facing_direction
+			_facing_dir = _last_direction
+			_opp_facing_dir	= _facing_dir * -1
+		else:
+			_facing_dir = _last_direction
+			_opp_facing_dir	= _facing_dir * -1
 		if is_crouching:
 			anim_sprite.play("crouch_idle")
 		if anim_sprite.animation == "run":
@@ -244,10 +260,10 @@ func _physics_process(delta):
 			if is_climbing:
 				is_climbing = false
 		if can_ng_wall_jump:
-			if facing_ray.is_colliding():
-				velocity.x = facing_ray.target_position.normalized().x * WALL_JUMP_VELOCITY
-			elif opp_facing_ray.is_colliding():
-				velocity.x = opp_facing_ray.target_position.normalized().x * WALL_JUMP_VELOCITY
+			if is_facing_colliding:
+				velocity.x = _facing_dir.x * WALL_JUMP_VELOCITY
+			elif is_opp_facing_colliding:
+				velocity.x = _opp_facing_dir.x * WALL_JUMP_VELOCITY
 			velocity.y = JUMP_VELOCITY - 100
 			jump_type = JUMP_TYPE.GRABLESS
 		_last_jump_type = jump_type
@@ -261,28 +277,27 @@ func _physics_process(delta):
 		# close enough to climb the wall
 		# moving into the wall
 		# not moving or already moving down (to avoid interrupting a jump)
-	is_wall_sliding = !is_grounded and !is_climbing and can_climb_wall and direction == facing_ray.target_position.normalized().x and velocity.y >= 0
+	is_wall_sliding = !is_grounded and !is_climbing and can_climb_wall and direction == _facing_dir.x and velocity.y >= 0
 	if not is_grounded:
 		if !is_climbing:
-			if can_climb_wall and direction == facing_ray.target_position.normalized().x and velocity.y >= 0:
+			if can_climb_wall and direction == _facing_dir.x and velocity.y >= 0:
 				# if moving into a wall
 				velocity.y = WALL_SLIDE_VELOCITY
 			else:
 				# Add the _gravity.
 				velocity.y += _gravity * delta
-				if _can_stand: 
+				if _can_stand:
 					anim_sprite.play("jump")
 	else:
 		if anim_sprite.animation == "jump":
 			anim_sprite.stop()
 	
-	if is_grounded and !is_crouching and !direction and !anim_sprite.is_playing() and velocity.y == 0:
+	if is_grounded and !is_crouching and !is_climbing and !direction and !anim_sprite.is_playing() and velocity.y == 0:
 		anim_sprite.play("idle")
 
 	_was_off_ledge = _off_ledge
 	_frames_until_regrab = int(move_toward(_frames_until_regrab, _TIMER_MIN_RESET, 1))
 	_track_direction()
-	print(_can_stand)
 	move_and_slide()
 
 func _input(event):
@@ -290,18 +305,34 @@ func _input(event):
 		if velocity.y < 0:
 			velocity.y *= JUMP_CUTOFF
 
+## Checks the player's health. If their health is 0, kill the player by emitting the `died` signal
 func check_death():
 	if health <= 0:
 		can_interact = false
 		print("PLAYER DIED")
 		died.emit()
 
+## Tracks the direction the player is facing using `_last_direction` and updates the sprite accordingly
 func _track_direction():
 	if !is_climbing:
 		if _last_direction.x == -1:
 			anim_sprite.flip_h = true
 		elif _last_direction.x == 1:
 			anim_sprite.flip_h = false
+
+## Checkes the player's crouch state and updates its collision hitboxes accordingly
+func set_collision_shapes(crouching: bool):
+	if crouching:
+		_coll_shape.shape.size = Vector2(16, 16)
+		_coll_shape.position = Vector2(0, 8)
+		hitbox.get_child(0).shape.size = Vector2(24, 12)
+		hitbox.get_child(0).position = Vector2(0, 6)
+	else:
+		_coll_shape.shape.size = Vector2(16, 32)
+		_coll_shape.position = Vector2(0, 0)
+		hitbox.get_child(0).shape.size = Vector2(24, 24)
+		hitbox.get_child(0).position = Vector2(0, 0)
+	pass
 
 func _on_hitbox_area_entered(area: Area2D):
 	if area is Bullet:
@@ -314,14 +345,12 @@ func _on_hitbox_area_entered(area: Area2D):
 func _on_headbox_body_entered(body: Node2D):
 	print(body.name)
 	if !(body is Player0):
-		_coll_shape.shape.size = Vector2(16, 16)
-		_coll_shape.position = Vector2(0, 8)
+		set_collision_shapes(true)
 		_can_stand = false
 
 func _on_headbox_body_exited(body: Node2D):
 	if !(body is Player0) and velocity.y >= 0:
-		_coll_shape.shape.size = Vector2(16, 32)
-		_coll_shape.position = Vector2(0, 0)
+		set_collision_shapes(false)
 		_can_stand = true
 
 func _on_interactbox_area_entered(area: Area2D):
@@ -374,3 +403,32 @@ func _on_hitbox_body_exited(_body: Node2D):
 	# 		_tile_facing_dir * -1
 	# 		]))
 	pass
+
+func _on_facing_l_area_entered(_area: Area2D):
+	pass
+
+func _on_facing_l_area_exited(_area: Area2D):
+	pass
+
+func _on_facing_r_area_entered(_area: Area2D):
+	pass
+
+func _on_facing_r_area_exited(_area: Area2D):
+	pass
+
+
+func _on_facing_l_body_entered(_body:Node2D):
+	_is_left_colliding = true
+	print("l entered")
+
+func _on_facing_l_body_exited(_body:Node2D):
+	_is_left_colliding = false
+	print("l left")
+
+func _on_facing_r_body_entered(_body:Node2D):
+	_is_right_colliding = true
+	print("r entered")
+
+func _on_facing_r_body_exited(_body:Node2D):
+	_is_right_colliding = false
+	print("r left")

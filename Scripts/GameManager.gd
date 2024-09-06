@@ -6,8 +6,10 @@ enum LOAD_REASON {DEATH, AT_TERMINAL}
 ## TileMap layers for each level's TileMap
 enum TILEMAP_LAYER{FAR_BG, CLOSE_BG, WALL, FG_LAYER}
 
-var PLAYER_BLOCK_TILE := Vector2i(3, 0)
-var TILE_SIZE := 18
+## The coordinate for the bridge tile in the main tilemap
+var PLAYER_BLOCK_TILE_COORD := Vector2i(3, 0)
+## The size of the tilemap's cell
+@onready var TILE_SIZE : int = 18
 
 ## Bullet scene object
 var _bullet_scene = preload("res://Scenes/Bullet.tscn")
@@ -16,9 +18,11 @@ var sticky_scene := preload("res://Scenes/Sticky.tscn")
 ## Enemy scene object
 var enemy_scene := preload("res://Scenes/Enemy.tscn")
 ## Player (CROWN) scene object
-var player_crown_scene := preload("res://Scenes/Player_0.tscn")
+var player_crown_scene := preload("res://Scenes/Player1.tscn")
 ## Player (GEM) scene object
-var player_gem_scene := preload("res://Scenes/Player_2.tscn")
+var player_gem_scene := preload("res://Scenes/Player2.tscn")
+## BridgeBuilder (GEM) scene
+var bridge_builder_scene := preload("res://Scenes/BridgeBuilder.tscn")
 ## Why was the level reloaded?
 var load_reason: LOAD_REASON
 

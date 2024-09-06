@@ -12,12 +12,16 @@ class_name Level extends Node2D
 @onready var tilemap: TileMap = $TileMap
 @onready var start_pos: Marker2D = $StartPos
 
-# Flag to avoid connecting to player death twice
-var has_died := false
+## Flag to avoid connecting to player death twice
+var _has_died := false
+## Delimiter for separating terminal names from their parent world name
+const _TERMINAL_NAME_DELIMITER := "||"
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	gui.visible = true
+	AM.ascending = false
+	AM.descending = false
 	match GM.load_reason:
 		GM.LOAD_REASON.AT_TERMINAL:
 			player.position = AM.player0_pos
@@ -73,11 +77,11 @@ func descend_layer(v: Vector2i, p: Vector2, t: Terminal):
 		accum.push_back(child.position)
 		return accum, [])
 	GM.holding_level_enemies = true
-	AM.active_terminal = name + "|" + t.name
+	AM.active_terminal = name + _TERMINAL_NAME_DELIMITER + t.name
 	AM.player0_pos = player.global_position
 	AM.descend_layer(v.x, v.y, p)
 	await play_zoom_in().animation_finished
-	get_tree().change_scene_to_file("res://Scenes/" + AM.ring_scene + ".tscn")
+	get_tree().change_scene_to_packed(GM.bridge_builder_scene)
 
 func ascend_layer():
 	get_tree().paused = true
@@ -92,20 +96,21 @@ func set_camera_limits(disable: bool = false):
 	camera.drag_vertical_enabled = !disable
 	camera.position_smoothing_enabled = !disable
 
+## Builds the player's bridge in the world
 func make_bridges():
 	AM.awaiting_bridge = false
 	if AM.lvl_terminals[name]:
 		var terminals = AM.lvl_terminals[name] as Dictionary
 		for t: String in terminals:
-			var term = get_node(t.split("|")[-1]) as Terminal
+			var term = get_node(t.split(_TERMINAL_NAME_DELIMITER)[-1]) as Terminal
 			var pos = term.bridge_position
 			for v in terminals[t].bridge_vectors:
-				tilemap.set_cell(GM.TILEMAP_LAYER.WALL, pos / 18 + Vector2i(v), 0, GM.PLAYER_BLOCK_TILE)
+				tilemap.set_cell(GM.TILEMAP_LAYER.WALL, pos / 18 + Vector2i(v), 0, GM.PLAYER_BLOCK_TILE_COORD)
 
 func handle_player_death():
 	if !AM.descending:
-		if !has_died:
-			has_died = !has_died
+		if !_has_died:
+			_has_died = true
 			GM.load_reason = GM.LOAD_REASON.DEATH
 			AM.block_count = 0
 			# Clear all bullets to avoid updating the null reference to the player

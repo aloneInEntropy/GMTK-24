@@ -84,6 +84,7 @@ pause={
 2d_physics/layer_5="interact"
 2d_physics/layer_6="harm"
 2d_physics/layer_7="instakill"
+2d_physics/layer_8="sticky"
 
 [physics]
 

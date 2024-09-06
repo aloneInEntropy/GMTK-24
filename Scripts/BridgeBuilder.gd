@@ -12,7 +12,7 @@ var bridge: BridgeStruct
 var orig_block_count := AM.block_count
 var BG_LAYER := 0
 var FG_LAYER := 1
-var TILE_SIZE := 18
+@onready var TILE_SIZE : int = GM.TILE_SIZE
 
 func _ready():
 	gui.visible = true

@@ -3,7 +3,7 @@
 [ext_resource type="Script" path="res://Scripts/Level.gd" id="1_omwnd"]
 [ext_resource type="Texture2D" uid="uid://cl4ef8hyeqx1l" path="res://Assets/Sprites/Custom/Background.png" id="2_hu2ag"]
 [ext_resource type="TileSet" uid="uid://cd3qvsgfx5pmr" path="res://Scenes/world0_tileset.tres" id="3_i8kdk"]
-[ext_resource type="PackedScene" uid="uid://b10u4gvqy8rcj" path="res://Scenes/Player_0.tscn" id="4_h1gbr"]
+[ext_resource type="PackedScene" uid="uid://b10u4gvqy8rcj" path="res://Scenes/Player1.tscn" id="4_h1gbr"]
 [ext_resource type="PackedScene" uid="uid://b0x1hf0cxved5" path="res://Scenes/Enemy.tscn" id="5_7bvix"]
 [ext_resource type="PackedScene" uid="uid://dlhy1ldll77c" path="res://Scenes/Door.tscn" id="6_xqmig"]
 [ext_resource type="Animation" uid="uid://wn8pijvgb2on" path="res://Scenes/zoom_in_player.res" id="7_2ilpr"]
@@ -156,7 +156,7 @@ bridge_position = Vector2i(269, 327)
 position = Vector2(269, 327)
 
 [node name="StartPos" type="Marker2D" parent="."]
-position = Vector2(47, -23)
+position = Vector2(47, -25)
 
 [node name="DeathArea" parent="." instance=ExtResource("11_b8cye")]
 position = Vector2(-51, 415)

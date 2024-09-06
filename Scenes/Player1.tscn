@@ -1,20 +1,20 @@
-[gd_scene load_steps=14 format=3 uid="uid://b10u4gvqy8rcj"]
+[gd_scene load_steps=16 format=3 uid="uid://b10u4gvqy8rcj"]
 
-[ext_resource type="Script" path="res://Scripts/Player_0.gd" id="1_ly33f"]
-[ext_resource type="SpriteFrames" uid="uid://cscemie4077pa" path="res://Assets/Sprites/Player/Player_anims.tres" id="3_tdkr0"]
-[ext_resource type="Texture2D" uid="uid://binx8vqdcurvy" path="res://Assets/Sprites/Player/Hitmark.png" id="17_555sg"]
+[ext_resource type="Script" path="res://Scripts/Player1.gd" id="1_eqpby"]
+[ext_resource type="SpriteFrames" uid="uid://cscemie4077pa" path="res://Assets/Sprites/Player/Player_anims.tres" id="2_o2waa"]
+[ext_resource type="Texture2D" uid="uid://binx8vqdcurvy" path="res://Assets/Sprites/Player/Hitmark.png" id="3_w1ovv"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_sehgg"]
 size = Vector2(16, 32)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_lh6el"]
-size = Vector2(24, 27)
+size = Vector2(16, 24)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_iqg1m"]
 size = Vector2(24, 29)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_j13fu"]
-size = Vector2(70, 49)
+size = Vector2(70, 40)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_qmw8q"]
 size = Vector2(16, 16)
@@ -150,30 +150,28 @@ point_count = 2
 [sub_resource type="Gradient" id="Gradient_lbop6"]
 colors = PackedColorArray(0.877346, 3.87453e-06, 1.2514e-06, 1, 1, 1, 1, 0)
 
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_s4ois"]
+size = Vector2(12, 32)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_ttotj"]
+size = Vector2(12, 32)
+
 [node name="Player" type="CharacterBody2D"]
 process_mode = 1
 collision_mask = 15
-script = ExtResource("1_ly33f")
+script = ExtResource("1_eqpby")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("RectangleShape2D_sehgg")
 
-[node name="FacingDir" type="RayCast2D" parent="."]
-target_position = Vector2(17, 0)
-collision_mask = 4
-
-[node name="OppFacingDir" type="RayCast2D" parent="."]
-target_position = Vector2(-17, 0)
-collision_mask = 4
-
 [node name="FloorDetectorL" type="RayCast2D" parent="."]
-position = Vector2(8, 15)
-target_position = Vector2(0, 4)
+position = Vector2(8, 16)
+target_position = Vector2(0, 1)
 collision_mask = 14
 
 [node name="FloorDetectorR" type="RayCast2D" parent="."]
 position = Vector2(-8, 16)
-target_position = Vector2(0, 4)
+target_position = Vector2(0, 1)
 collision_mask = 14
 
 [node name="BulletCheck" type="RayCast2D" parent="."]
@@ -184,11 +182,9 @@ collision_mask = 46
 collide_with_areas = true
 
 [node name="Hitbox" type="Area2D" parent="."]
-visible = false
 collision_mask = 36
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Hitbox"]
-position = Vector2(0, 0.5)
 shape = SubResource("RectangleShape2D_lh6el")
 
 [node name="DeathBox" type="Area2D" parent="."]
@@ -204,10 +200,11 @@ visible = false
 collision_mask = 16
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Interactbox"]
-position = Vector2(0, -8.5)
+position = Vector2(0, -3)
 shape = SubResource("RectangleShape2D_j13fu")
 
 [node name="Headbox" type="Area2D" parent="."]
+visible = false
 collision_mask = 12
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Headbox"]
@@ -216,7 +213,8 @@ shape = SubResource("RectangleShape2D_qmw8q")
 debug_color = Color(0.895143, 0.278634, 0.406676, 0.42)
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
-sprite_frames = ExtResource("3_tdkr0")
+position = Vector2(0, -2)
+sprite_frames = ExtResource("2_o2waa")
 animation = &"idle"
 autoplay = "idle"
 
@@ -229,7 +227,7 @@ libraries = {
 visible = false
 z_index = 3
 scale = Vector2(2, 2)
-texture = ExtResource("17_555sg")
+texture = ExtResource("3_w1ovv")
 
 [node name="BulletLine" type="Line2D" parent="."]
 visible = false
@@ -238,6 +236,20 @@ points = PackedVector2Array(0, 0, 400, 0)
 width = 5.25
 width_curve = SubResource("Curve_2y7bf")
 gradient = SubResource("Gradient_lbop6")
+
+[node name="FacingL" type="Area2D" parent="."]
+collision_mask = 4
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="FacingL"]
+position = Vector2(-6, 0)
+shape = SubResource("RectangleShape2D_s4ois")
+
+[node name="FacingR" type="Area2D" parent="."]
+collision_mask = 4
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="FacingR"]
+position = Vector2(6, 0)
+shape = SubResource("RectangleShape2D_ttotj")
 
 [connection signal="area_entered" from="Hitbox" to="." method="_on_hitbox_area_entered"]
 [connection signal="area_exited" from="Hitbox" to="." method="_on_hitbox_area_exited"]
@@ -248,3 +260,11 @@ gradient = SubResource("Gradient_lbop6")
 [connection signal="area_exited" from="Interactbox" to="." method="_on_interactbox_area_exited"]
 [connection signal="body_entered" from="Headbox" to="." method="_on_headbox_body_entered"]
 [connection signal="body_exited" from="Headbox" to="." method="_on_headbox_body_exited"]
+[connection signal="area_entered" from="FacingL" to="." method="_on_facing_l_area_entered"]
+[connection signal="area_exited" from="FacingL" to="." method="_on_facing_l_area_exited"]
+[connection signal="body_entered" from="FacingL" to="." method="_on_facing_l_body_entered"]
+[connection signal="body_exited" from="FacingL" to="." method="_on_facing_l_body_exited"]
+[connection signal="area_entered" from="FacingR" to="." method="_on_facing_r_area_entered"]
+[connection signal="area_exited" from="FacingR" to="." method="_on_facing_r_area_exited"]
+[connection signal="body_entered" from="FacingR" to="." method="_on_facing_r_body_entered"]
+[connection signal="body_exited" from="FacingR" to="." method="_on_facing_r_body_exited"]

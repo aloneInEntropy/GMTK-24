@@ -7,7 +7,7 @@ class_name Sticky extends Area2D
 @onready var stick_check_u: RayCast2D = $StickCheckU
 @onready var stick_check_d: RayCast2D = $StickCheckD
 @onready var coll: CollisionShape2D = $CollisionShape2D
-@export var TILE_SIZE := 18
+@onready var TILE_SIZE : int = GM.TILE_SIZE
 
 ## is this Sticky object attached to the player/another Sticky object?
 var is_attached := false

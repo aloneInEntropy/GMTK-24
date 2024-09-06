@@ -1,11 +1,11 @@
 [gd_scene load_steps=9 format=3 uid="uid://b3lfgcqge3iik"]
 
-[ext_resource type="PackedScene" uid="uid://dqicif111sykx" path="res://Scenes/Player_2.tscn" id="1_2cjvs"]
-[ext_resource type="Script" path="res://Scripts/RING_World.gd" id="1_3y0h1"]
-[ext_resource type="TileSet" uid="uid://cd3qvsgfx5pmr" path="res://Scenes/world0_tileset.tres" id="2_tapij"]
-[ext_resource type="Animation" uid="uid://dteq76qrgir20" path="res://Scenes/zoom_out_player.res" id="5_d5voa"]
-[ext_resource type="Animation" uid="uid://wn8pijvgb2on" path="res://Scenes/zoom_in_player.res" id="6_ro2sc"]
-[ext_resource type="PackedScene" uid="uid://bmr1wuaorpuic" path="res://Scenes/GUI.tscn" id="7_ofcfh"]
+[ext_resource type="Script" path="res://Scripts/BridgeBuilder.gd" id="1_y54ge"]
+[ext_resource type="PackedScene" uid="uid://dqicif111sykx" path="res://Scenes/Player2.tscn" id="2_sk276"]
+[ext_resource type="TileSet" uid="uid://cd3qvsgfx5pmr" path="res://Scenes/world0_tileset.tres" id="3_fnpbl"]
+[ext_resource type="Animation" uid="uid://wn8pijvgb2on" path="res://Scenes/zoom_in_player.res" id="4_ghjq0"]
+[ext_resource type="Animation" uid="uid://dteq76qrgir20" path="res://Scenes/zoom_out_player.res" id="5_x8005"]
+[ext_resource type="PackedScene" uid="uid://bmr1wuaorpuic" path="res://Scenes/GUI.tscn" id="6_atbau"]
 
 [sub_resource type="Animation" id="Animation_sdbmr"]
 length = 0.001
@@ -13,15 +13,15 @@ length = 0.001
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_b7y41"]
 _data = {
 "RESET": SubResource("Animation_sdbmr"),
-"zoom_in_player": ExtResource("6_ro2sc"),
-"zoom_out_player": ExtResource("5_d5voa")
+"zoom_in_player": ExtResource("4_ghjq0"),
+"zoom_out_player": ExtResource("5_x8005")
 }
 
 [node name="World" type="Node2D"]
 process_mode = 1
-script = ExtResource("1_3y0h1")
+script = ExtResource("1_y54ge")
 
-[node name="Player2" parent="." instance=ExtResource("1_2cjvs")]
+[node name="Player2" parent="." instance=ExtResource("2_sk276")]
 
 [node name="RemoteTransform2D" type="RemoteTransform2D" parent="Player2"]
 remote_path = NodePath("../PlayerFollows")
@@ -32,7 +32,7 @@ remote_path = NodePath("../PlayerFollows")
 zoom = Vector2(1.5, 1.5)
 
 [node name="TileMap" type="TileMap" parent="."]
-tile_set = ExtResource("2_tapij")
+tile_set = ExtResource("3_fnpbl")
 format = 2
 layer_0/name = "BG"
 layer_0/tile_data = PackedInt32Array(-524304, 458757, 4, -458768, 458757, 4, -393232, 458757, 4, -327696, 458757, 4, -262160, 458757, 4, -196624, 458757, 4, -131088, 458757, 4, -65552, 458757, 4, -16, 458757, 4, 65520, 458757, 4, 131056, 458757, 4, 196592, 458757, 4, 262128, 458757, 4, 327664, 458757, 4, 393200, 458757, 4, 458736, 458757, 4, 524272, 458757, 4, 589808, 458757, 4, 589809, 458757, 4, 589810, 458757, 4, 589811, 458757, 4, 589812, 458757, 4, 589813, 458757, 4, 589814, 458757, 4, 589815, 458757, 4, 589816, 458757, 4, 589817, 458757, 4, 589818, 458757, 4, 589819, 458757, 4, 589820, 458757, 4, 589821, 458757, 4, 589822, 458757, 4, 589823, 458757, 4, 524288, 458757, 4, 524289, 458757, 4, 524290, 458757, 4, 524291, 458757, 4, 524292, 458757, 4, 524293, 458757, 4, 524294, 458757, 4, 524295, 458757, 4, 524296, 458757, 4, 524297, 458757, 4, 524298, 458757, 4, 524299, 458757, 4, 524300, 458757, 4, 524301, 458757, 4, 524302, 458757, 4, 524303, 458757, 4, 458767, 458757, 4, 393231, 458757, 4, 327695, 458757, 4, 262159, 458757, 4, 196623, 458757, 4, 131087, 458757, 4, 65551, 458757, 4, 15, 458757, 4, -65521, 458757, 4, -131057, 458757, 4, -196593, 458757, 4, -262129, 458757, 4, -327665, 458757, 4, -393201, 458757, 4, -458737, 458757, 4, -524273, 458757, 4, -589809, 458757, 4, -589810, 458757, 4, -589811, 458757, 4, -589812, 458757, 4, -589813, 458757, 4, -589814, 458757, 4, -589815, 458757, 4, -589816, 458757, 4, -589817, 458757, 4, -589818, 458757, 4, -589819, 458757, 4, -589820, 458757, 4, -589821, 458757, 4, -589822, 458757, 4, -589823, 458757, 4, -589824, 458757, 4, -524289, 458757, 4, -524290, 458757, 4, -524291, 458757, 4, -524292, 458757, 4, -524293, 458757, 4, -524294, 458757, 4, -524295, 458757, 4, -524296, 458757, 4, -524297, 458757, 4, -524298, 458757, 4, -524299, 458757, 4, -524300, 458757, 4, -524301, 458757, 4, -524302, 458757, 4, -524303, 458757, 4)
@@ -46,7 +46,7 @@ libraries = {
 "": SubResource("AnimationLibrary_b7y41")
 }
 
-[node name="GUI" parent="." instance=ExtResource("7_ofcfh")]
+[node name="GUI" parent="." instance=ExtResource("6_atbau")]
 visible = false
 
 [node name="Stickies" type="Node" parent="."]

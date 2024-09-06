@@ -5,7 +5,7 @@
             - [x] Crouching
                 - [x] Allow crouch jumping
             - [x] Wall climbing
-                - [ ] Switch from raycasts to Area2Ds for conssistency (OPTIONAL)
+                - [x] Switch from raycasts to Area2Ds for conssistency (OPTIONAL)
             - [x] Grabbed wall jumping
             - [x] Wall sliding
             - [x] Variable jump height
@@ -39,6 +39,10 @@
         - [ ] Free terminals
             - Can connect to any space
     - [ ] Pause menu
+        - [x] Pause game
+        - [ ] Help menu
+            - Displays controls
+        - [ ] Quit game
     - [ ] Sound effects
         - [ ] Player footsteps
         - [ ] Bullet shot
@@ -121,10 +125,12 @@
     - [x] SEVERE
         - [x] Bridges from previous levels mapping to those in future levels
     - [ ] MODERATE
-        - [ ] Occasionally, the blocks widths in GEM don't update correctly. This leads some of them to move past the surrounding wall.
+        - [x] Occasionally, the blocks widths in GEM don't update correctly. This leads some of them to move past the surrounding wall.
             - FIX: todo
         - [ ] New blocks don't appear when revisiting a submitted bridge 
+            - Is this even a bug?
     - [ ] LIGHT
-        - [ ] Wall jumping only works if the wall is in the centre of the player character, which is annoying
+        - [x] Wall jumping only works if the wall is in the centre of the player character, which is annoying
             - FIX: see Player/Movement/Wall Climbing
-        - [x]  Sprite is updating when climbing and looking away from the wall
+        - [x] Sprite is updating when climbing and looking away from the wall
+        - [x] Sprite isn't updating when ungrabbing wall on the ground

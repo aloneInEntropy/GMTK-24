@@ -6,6 +6,7 @@ class_name Terminal extends Area2D
 @export var bridge_position := Vector2i()
 
 var bridge : BridgeStruct
+var bridge_id : int ## Element num
 
 ## Go to the specified scene
 func use():

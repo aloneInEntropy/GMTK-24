@@ -12,7 +12,6 @@ var player0: Player0
 var player0_pos: Vector2
 var gem_scene: String
 # var player1 : Node
-var ring_scene := "RING_World"
 var player2: Player2
 
 var descending := false

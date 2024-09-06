@@ -18,13 +18,16 @@ const MOVEMENT_MAX_TIME := 6
 # ----------------------- enums ---------------------- #
 
 # ---------------------- signals ---------------------- #
-signal died
 
 # ----------------- public variables ----------------- #
 var can_move := true
 var can_interact: bool
 var interactable: Area2D
 var pos_array: PackedVector2Array
+var group_width_left: int = TILE_SIZE
+var group_width_right: int = TILE_SIZE
+var group_height_up: int = TILE_SIZE
+var group_height_down: int = TILE_SIZE
 
 # ----------------- private variables ----------------- #
 ## value for which a frame timer will remain at when a timer is over.
@@ -33,10 +36,6 @@ const _TIMER_MIN_RESET := -1
 var _movement_timer := MOVEMENT_MAX_TIME
 ## the direction the player was facing on the last input
 var _last_direction: Vector2
-var group_width_left: int = TILE_SIZE
-var group_width_right: int = TILE_SIZE
-var group_height_up: int = TILE_SIZE
-var group_height_down: int = TILE_SIZE
 
 func _ready():
 	position = position.snapped(Vector2.ONE * TILE_SIZE)
@@ -132,7 +131,7 @@ func check_can_move() -> bool:
 	return true
 
 func get_sticky_children() -> Array:
-	var children = get_children().reduce(func(accum: Array, child: Node):
+	var children = get_children().reduce(func(accum: Array, child: Node) -> Array:
 		if child is Sticky:
 			accum.push_back(child)
 		return accum, []) as Array
@@ -144,10 +143,10 @@ func handle_sticky_joined():
 func recalculate_group_sizes(stickies: Array):
 	var poss := []
 	if !stickies.is_empty():
-		var _group_width_left := TILE_SIZE
-		var _group_width_right := TILE_SIZE
-		var _group_height_up := TILE_SIZE
-		var _group_height_down := TILE_SIZE
+		var _group_width_left := 0
+		var _group_width_right := 0
+		var _group_height_up := 0
+		var _group_height_down := 0
 
 		for sticky in stickies:
 			poss.append(sticky.position)
@@ -155,15 +154,15 @@ func recalculate_group_sizes(stickies: Array):
 			_group_width_right = max(_group_width_right, sticky.position.x)
 			_group_height_up = min(_group_height_up, sticky.position.y)
 			_group_height_down = max(_group_height_down, sticky.position.y)
-		
+
 		# only add TILE_SIZE if that side has a tile on it, otherwise ignore it
-		if _group_width_left != TILE_SIZE:
+		if _group_width_left != 0:
 			group_width_left = abs(_group_width_left) + TILE_SIZE
-		if group_width_right != TILE_SIZE:
+		if group_width_right != 0:
 			group_width_right = abs(_group_width_right) + TILE_SIZE
-		if group_height_up != TILE_SIZE:
+		if group_height_up != 0:
 			group_height_up = abs(_group_height_up) + TILE_SIZE
-		if group_height_down != TILE_SIZE:
+		if group_height_down != 0:
 			group_height_down = abs(_group_height_down) + TILE_SIZE
 		
 		pos_array = poss.map(func(p):
